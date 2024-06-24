@@ -43,7 +43,11 @@ createWeb3Modal({
   chains: [mainnet],
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
-  enableOnramp: true // Optional - false as default
+  enableOnramp: true,// Optional - false as default
+  themeVariables: {
+    '--w3m-color-mix': '#5773ff',
+    '--w3m-color-mix-strength': 40,
+  }
 })
 
 // Define the props type

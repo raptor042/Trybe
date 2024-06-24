@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
 import { Web3Modal } from "./context/web3modal";
+import { SessionProvider } from "next-auth/react"
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,7 +15,9 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
+
   children,
+
 }: Readonly<{
   children: React.ReactNode;
 }>) {
