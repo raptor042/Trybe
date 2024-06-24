@@ -19,31 +19,31 @@ const Navbar = () => {
         <Image src={"/loggo.svg"} alt="" width={50} height={100} />
 
         <div className="flex items-center gap-8">
-          <button className="border-[#9869EB] text-[#9869EB] border-2 px-6 py-2 flex items-center gap-3">
+          <button className="border-[#5773ff] text-[#5773ff] border-2 px-6 py-2 flex items-center gap-3 rounded-2xl">
             <IoAdd />
             <p>import</p>
           </button>
-          <button className=" bg-[#9869EB] font-light text-white px-3 py-2 flex items-center gap-2">
+          <button className=" bg-[#5773ff] font-light text-white px-4 py-1 flex items-center gap-1 rounded-2xl ">
             <IoWallet />
-            <p>Connect to Wallet</p>
+            <w3m-button balance={"hide"} />
           </button>
         </div>
       </main>
       <main className="border-y m-3 border-gray-900  w-full flex items-center justify-center gap-16 ">
         <Link
-          className={`link ${pathname === '/' ? 'flex items-center gap-2 text-[#9869EB] text border-b-2 p-4 border-[#9869EB]' : 'flex items-center gap-2 p-4'}`} href="/"  >
+          className={`link ${pathname === '/' ? 'flex items-center gap-2 text-[#5773ff] text border-b-2 p-4 border-[#5773ff]' : 'flex items-center gap-2 p-4'}`} href="/"  >
           <TbPhoto />
           <span> All Photos</span>
         </Link>
 
 
         <Link
-          className={`link ${pathname === '/albums' ? 'flex items-center gap-2 text-[#9869EB] text border-b-2 p-4 border-[#9869EB]' : 'flex items-center gap-2   p-4'}`} href="/albums"  >
+          className={`link ${pathname === '/albums' ? 'flex items-center gap-2 text-[#5773ff] text border-b-2 p-4 border-[#5773ff]' : 'flex items-center gap-2   p-4'}`} href="/albums"  >
           <TbLibraryPhoto />
           <span> Albums</span>
         </Link>
         <Link
-          className={`link ${pathname === '/favorites' ? 'flex items-center gap-2 text-[#9869EB] text border-b-2 p-4 border-[#9869EB]' : 'flex items-center gap-2   p-4'}`} href="/favorites"  >
+          className={`link ${pathname === '/favorites' ? 'flex items-center gap-2 text-[#5773ff] text border-b-2 p-4 border-[#5773ff]' : 'flex items-center gap-2   p-4'}`} href="/favorites"  >
           <TiStarOutline />
           <span> Favorites</span>
         </Link>

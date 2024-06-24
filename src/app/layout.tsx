@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
+import { Web3Modal } from "./context/web3modal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,10 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        {children}
-        <Footer />
+        <Web3Modal>
+          <Navbar />
+          {children}
+          <Footer />
+        </Web3Modal>
       </body>
     </html>
   );
 }
+
+
