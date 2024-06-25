@@ -18,12 +18,12 @@ const Navbar = () => {
       <main className="p-5  px-10 flex justify-between items-center w-full">
         <Image src={"/loggo.svg"} alt="" width={50} height={100} />
 
-        <div className="flex items-center gap-8">
-          <button className="border-[#5773ff] text-[#5773ff] border-2 px-6 py-2 flex items-center gap-3 rounded-2xl">
+        <div className="flex items-center gap-4">
+          <button className="border-[#5773ff] text-[#5773ff] border-2 px-3 py-3 flex items-center gap-3 rounded-xl">
             <IoAdd />
-            <p>import</p>
+
           </button>
-          <button className=" bg-[#5773ff] font-light text-white px-4 py-1 flex items-center gap-1 rounded-2xl ">
+          <button className=" bg-[#5773ff] font-light text-white px-4 py-1 flex items-center gap-1 rounded-xl ">
             <IoWallet />
             <w3m-button balance={"hide"} />
           </button>

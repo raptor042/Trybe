@@ -23,7 +23,8 @@
     "react-router-dom": "^6.23.1",
     "siwe": "^2.3.2",
     "viem": "^2.16.1",
-    "wagmi": "^2.10.4"
+    "wagmi": "^2.10.4",
+    "web3modal": "^1.9.12"
   },
   "devDependencies": {
     "@types/node": "^20",
