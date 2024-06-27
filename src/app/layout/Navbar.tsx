@@ -23,7 +23,7 @@ const Navbar = () => {
             <IoAdd />
 
           </button>
-          <button className=" bg-[#5773ff] font-light text-white px-4 py-1 flex items-center gap-1 rounded-xl ">
+          <button className="  font-light text-white px-4 py-1 flex items-center gap-1 rounded-xl ">
             <IoWallet />
             <w3m-button balance={"hide"} />
           </button>
