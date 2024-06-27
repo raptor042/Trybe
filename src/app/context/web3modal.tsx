@@ -1,6 +1,4 @@
 'use client'
-
-
 import React, { ReactNode } from 'react'
 import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react'
 
@@ -58,3 +56,5 @@ interface Web3ModalProps {
 export function Web3Modal({ children }: Web3ModalProps) {
   return <>{children}</>
 }
+
+

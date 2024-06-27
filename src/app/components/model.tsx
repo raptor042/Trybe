@@ -1,59 +1,41 @@
-'use client'
+"use client"
 
-import React, { ReactNode } from 'react'
-import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react'
+import React from 'react';
+import Image from 'next/image';
 
-// 1. Get projectId from https://cloud.walletconnect.com
-const projectId = '85003f657e1698285641e6051217f1e1'
-
-// 2. Set chains
-const mainnet = {
-    chainId: 1,
-    name: 'Ethereum',
-    currency: 'ETH',
-    explorerUrl: 'https://etherscan.io',
-    rpcUrl: 'https://cloudflare-eth.com'
+interface ModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    imageUrl: string | null; // Accepts null as well
 }
 
-// 3. Create a metadata object
-const metadata = {
-    name: 'My Website',
-    description: 'My Website description',
-    url: 'https://mywebsite.com', // origin must match your domain & subdomain
-    icons: ['https://avatars.mywebsite.com/']
-}
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, imageUrl }) => {
+    if (!isOpen || !imageUrl) return null; // Render nothing if not open or imageUrl is null
 
-// 4. Create Ethers config
-const ethersConfig = defaultConfig({
-    // Required
-    metadata,
+    const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (e.target === e.currentTarget) {
+            onClose();
+        }
+    };
 
-    // Optional
-    enableEIP6963: false, // true by default
-    enableInjected: true, // true by default
-    enableCoinbase: true, // true by default
-    rpcUrl: '...', // used for the Coinbase SDK
-    defaultChainId: 1 // used for the Coinbase SDK
-})
+    return (
+        <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+            onClick={handleOverlayClick}
+        >
+            <div className="relative bg-white p-4 rounded-lg">
+                <button
+                    className="absolute top-2 right-2 text-black bg-gray-200 rounded-full p-2"
+                    onClick={onClose}
+                >
+                    &times;
+                </button>
+                {imageUrl && (
+                    <Image src={imageUrl} alt="Modal Image" width={400} height={400} />
+                )}
+            </div>
+        </div>
+    );
+};
 
-// 5. Create a Web3Modal instance
-createWeb3Modal({
-    ethersConfig,
-    chains: [mainnet],
-    projectId,
-    enableAnalytics: true, // Optional - defaults to your Cloud configuration
-    enableOnramp: true,// Optional - false as default
-    themeVariables: {
-        '--w3m-color-mix': '#5773ff',
-        '--w3m-color-mix-strength': 40,
-    }
-})
-
-// Define the props type
-interface Web3ModalProps {
-    children: ReactNode
-}
-
-export function Web3Modal({ children }: Web3ModalProps) {
-    return <>{children}</>
-}
+export default Modal;

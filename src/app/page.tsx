@@ -40,7 +40,7 @@ export default function Home() {
         alert("Trouble uploading file");
       }
     }
-    setFiles(uploadedFiles); // Replace the current state with the newly uploaded files
+    setFiles((prevFiles) => [...prevFiles, ...uploadedFiles]); // Append the new files to the existing state
     setUploading(false);
   };
 
