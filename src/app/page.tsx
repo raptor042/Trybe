@@ -82,13 +82,7 @@ export default function Home() {
         style={{ display: "none" }}
       />
       <div>
-        <button
-          disabled={uploading}
-          onClick={() => inputFile.current?.click()} // Safely use optional chaining
-          className="w-[150px] bg-secondary text-light rounded-3xl py-2 px-4 hover:bg-accent hover:text-light transition-all duration-300 ease-in-out"
-        >
-          {uploading ? "Uploading..." : "Upload"}
-        </button>
+
       </div>
       {files.length === 0 ? (
         <div className="mt-5 text-center flex flex-col items-center">
@@ -97,6 +91,13 @@ export default function Home() {
             <p className="font-bold text-3xl">No photos uploaded yet!</p>
             <p>connect your wallet to be able to upload and store your photos</p>
           </div>
+          <button
+            disabled={uploading}
+            onClick={() => inputFile.current?.click()} // Safely use optional chaining
+            className="w-[150px] bg-secondary bg-[#5773ff] text-light rounded-3xl py-2 px-4 hover:bg-accent hover:text-light transition-all duration-300 ease-in-out"
+          >
+            {uploading ? "Uploading..." : "Upload Photo"}
+          </button>
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5">

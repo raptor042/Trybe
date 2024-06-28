@@ -58,7 +58,24 @@ const Page = () => {
                                 placeholder="Title"
                             />
 
-                            <input placeholder="Caption (Optional)" type="text" id="caption" className="block w-full p-4 text-gray-700 rounded-lg bg-[#37373b] text- " />
+                            <input placeholder="discription" type="text" id="caption" className="block w-full p-4 text-gray-700 rounded-lg bg-[#37373b] text- " />
+
+                            <input placeholder="text Area" type="text" id="text Area" className="block w-full p-4 text-gray-700 rounded-lg bg-[#37373b] text- " />
+
+
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Upload Album Profile</label>
+                            <input className="block w-full text-sm text-gray-900 bg-[#37373b]" id="file_input" type="file" />
+
+                            <select id="countries" className=" p-2 bg-[#37373b]">
+                                <option selected>Choose piture type </option>
+                                <option value="US">Public </option>
+                                <option value="CA">Private</option>\
+                            </select>
+
+
+
+
+
                         </div>
                         <div className="flex items-center justify-between">
                             <button
