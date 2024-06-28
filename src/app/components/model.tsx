@@ -23,7 +23,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, imageUrl }) => {
             className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
             onClick={handleOverlayClick}
         >
-            <div className="relative bg-white p-4 rounded-lg">
+            <div className="relative bg-[#19191B] p-4 rounded-lg">
                 <button
                     className="absolute top-2 right-2 text-black bg-gray-200 rounded-full p-2"
                     onClick={onClose}
@@ -31,7 +31,15 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, imageUrl }) => {
                     &times;
                 </button>
                 {imageUrl && (
-                    <Image src={imageUrl} alt="Modal Image" width={400} height={400} />
+                    <div className="flex justify-center items-center">
+                        <Image
+                            src={imageUrl}
+                            alt="Modal Image"
+                            width={400}
+                            height={400}
+                            className="object-contain"
+                        />
+                    </div>
                 )}
             </div>
         </div>

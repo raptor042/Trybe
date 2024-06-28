@@ -29,7 +29,7 @@ const Navbar = () => {
           </button>
         </div>
       </main>
-      <main className="border-y m-3 border-gray-900  w-full flex items-center justify-center gap-16 ">
+      <main className="border-y m-3 border-gray-800  w-full flex items-center justify-center gap-16 ">
         <Link
           className={`link ${pathname === '/' ? 'flex items-center gap-2 text-[#5773ff] text border-b-2 p-4 border-[#5773ff]' : 'flex items-center gap-2 p-4'}`} href="/"  >
           <TbPhoto />
