@@ -1,8 +1,8 @@
 "use client"
-
 import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import Modal from './components/model';
+
 
 // Define the type for the file objects
 interface FileObject {

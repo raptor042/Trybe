@@ -1,6 +1,8 @@
 "use client"
 
 import React from 'react';
+import { IoMdClose } from "react-icons/io";
+
 import Image from 'next/image';
 
 interface ModalProps {
@@ -23,13 +25,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, imageUrl }) => {
             className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
             onClick={handleOverlayClick}
         >
+            <button
+                className="absolute top-2 right-2 text-black  rounded-full p-2"
+                onClick={onClose}
+            >
+                <IoMdClose className="text-white text-2xl" />
+            </button>
             <div className="relative bg-[#19191B] p-4 rounded-lg">
-                <button
-                    className="absolute top-2 right-2 text-black bg-gray-200 rounded-full p-2"
-                    onClick={onClose}
-                >
-                    &times;
-                </button>
                 {imageUrl && (
                     <div className="flex justify-center items-center">
                         <Image
