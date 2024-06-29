@@ -282,7 +282,7 @@ const Page = () => {
                 </div>
             </AlbumModal>
 
-            <QRCodeModal isOpen={isQRCodeModalOpen} onClose={handleCloseQRCodeModal} url={url} />
+            <QRCodeModal isOpen={isQRCodeModalOpen} onClose={handleCloseQRCodeModal} url={visibility == 0 ? `https://trybe-eight.vercel.app/albums/public/${ID}` : `https://trybe-eight.vercel.app/albums/private/${ID}`} />
         </>
     );
 }
