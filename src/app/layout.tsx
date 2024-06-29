@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
 import { Web3Modal } from "./context/web3modal";
-import { SessionProvider } from "next-auth/react"
+import { StateProvider } from "./context/store";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,11 +24,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Web3Modal>
-          <Navbar />
-          {children}
-          <Footer />
-        </Web3Modal>
+        <StateProvider>
+          <Web3Modal>
+            <Navbar />
+            {children}
+            <Footer />
+          </Web3Modal>
+        </StateProvider>
       </body>
     </html>
   );
