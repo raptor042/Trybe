@@ -6,6 +6,7 @@ import { IoMdClose } from "react-icons/io";
 import * as htmlToImage from "html-to-image";
 import QRCode from "react-qr-code";
 import { IoDownload } from 'react-icons/io5';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface ModalProps {
     isOpen: boolean;
@@ -35,6 +36,8 @@ const QRCodeModal: React.FC<ModalProps> = ({ isOpen, onClose, url }) => {
           })
           .catch(function (error) {
             console.error("Error generating QR code:", error);
+
+            toast.error("Error downloading QR code.")
           });
       };
 
@@ -43,6 +46,7 @@ const QRCodeModal: React.FC<ModalProps> = ({ isOpen, onClose, url }) => {
             className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
             onClick={handleOverlayClick}
         >
+            <Toaster />
             <button
                 className="absolute top-2 right-2 text-black  rounded-full p-2"
                 onClick={onClose}
