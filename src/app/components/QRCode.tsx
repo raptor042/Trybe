@@ -23,11 +23,11 @@ const QRCodeModal: React.FC<ModalProps> = ({ isOpen, onClose, url }) => {
         }
     };
 
-    const qrCodeRef = document.getElementById("qrcode");
+    const qrCodeRef = document.getElementById("qrcode")!;
 
     const downloadQRCode = () => {
         htmlToImage
-          .toPng(qrCodeRef!)
+          .toPng(qrCodeRef)
           .then(function (dataUrl) {
             const link = document.createElement("a");
             link.href = dataUrl;
