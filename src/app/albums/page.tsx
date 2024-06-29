@@ -196,10 +196,12 @@ const Page = () => {
                         {albums.map((album, index) => (
                             <div key={index} className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                                 <Link href={album[1] == 0 ? `/albums/public/${album[0]}` : `/albums/private/${album[0]}`}>
-                                    <img
+                                    <Image
                                         className="rounded-t-lg" 
                                         src={album[6]} 
-                                        alt="" 
+                                        alt=""
+                                        width={400}
+                                        height={50}
                                     />
                                 </Link>
                                 <div className="p-5">
