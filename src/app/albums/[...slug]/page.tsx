@@ -38,10 +38,8 @@ const Page = () => {
         provider = new ethers.BrowserProvider(walletProvider);
     }
 
-    useEffect(() => {
-        if(isConnected) {
-          getImages()
-        }
+    useEffect(() => {    
+      getImages()
     }, [address, isConnected])
 
     const getImages = async () => {

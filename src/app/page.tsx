@@ -31,9 +31,7 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if(isConnected) {
-      getImages()
-    }
+    getImages()
   }, [address, isConnected])
 
   const setFiles = (files: string[]) => {

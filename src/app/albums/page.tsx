@@ -39,9 +39,7 @@ const Page = () => {
     }
 
     useEffect(() => {
-        if(isConnected) {
-          getAlbums()
-        }
+        getAlbums()
     }, [address, isConnected])
 
     const getAlbums = async () => {
