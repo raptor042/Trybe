@@ -255,7 +255,7 @@ const Page = () => {
                             </select>
 
                             {visibility == 1 && <label className="block text-sm font-medium text-gray-900 dark:text-white">Fee</label>}
-                            {visibility == 1 && <input value={fee} onChange={(e) => setFee(Number(e.target.value))} placeholder="fee" type="text" className="block mb-2 w-full p-4 text-white rounded-lg bg-[#37373b] text- " />}
+                            {visibility == 1 && <input value={fee} onChange={(e) => setFee(Number(e.target.value))} placeholder="fee" type="number" className="block mb-2 w-full p-4 text-white rounded-lg bg-[#37373b] text- " />}
                         </div>
                         <div className="flex items-center justify-between">
                             {!uploading &&
