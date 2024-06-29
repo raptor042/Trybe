@@ -120,18 +120,6 @@ export default function Home() {
     handleFileUpload(filesArray);
   };
 
-  // const loadRecent = async () => {
-  //   try {
-  //     const res = await fetch("/api/files");
-  //     const json = await res.json();
-  //     const recentImageUrl = `https://ipfs.io/ipfs/${json.ipfs_pin_hash}`;
-  //     setFiles([{ url: recentImageUrl, cid: json.ipfs_pin_hash }]);
-  //   } catch (e) {
-  //     console.log(e);
-  //     alert("Trouble loading files");
-  //   }
-  // };
-
   const openModal = (imageUrl: string) => {
     setModalImageUrl(imageUrl);
     setModalOpen(true);
