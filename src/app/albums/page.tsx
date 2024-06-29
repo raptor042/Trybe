@@ -24,6 +24,7 @@ const Page = () => {
     const [creating, setCreating] = useState(false)
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(true);
+    const [ID, setID] = useState<number>()
 
     const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
 
@@ -114,6 +115,8 @@ const Page = () => {
     
           trybe.on("AlbumCreated", (creator, nameOfAlbum, albumId, e) => {
             console.log(creator, nameOfAlbum, albumId)
+
+            setID(albumId)
 
             setCreating(false)
     
