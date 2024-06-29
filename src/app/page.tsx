@@ -169,7 +169,7 @@ export default function Home() {
         </div>
       }
       {files.length > 0 && !loading &&
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-5">
           {files.map((file, index) => (
             <div key={index} className="relative w-full h-0 pb-[66.66%]" onClick={() => openModal(file)}>
               <Image
