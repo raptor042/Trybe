@@ -193,7 +193,7 @@ const Page = () => {
                 }
 
                 {images.length > 0 && !loading &&
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 m-4">
                         {images.map((image, index) => (
                             <div key={index} className="relative w-full h-0 pb-[66.66%]" onClick={() => openModal(image)}>
                                 <Image
