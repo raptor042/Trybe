@@ -24,11 +24,11 @@ const QRCodeModal: React.FC<ModalProps> = ({ isOpen, onClose, url }) => {
         }
     };
 
-    const qrCodeRef = document.getElementById("code")!;
+    const qrCodeRef = useRef<HTMLDivElement>(null);
 
     const downloadQRCode = () => {
         htmlToImage
-          .toPng(qrCodeRef)
+          .toPng(qrCodeRef as unknown as HTMLElement)
           .then(function (dataUrl) {
             download(dataUrl, "qr-code.png")
           })
@@ -51,7 +51,7 @@ const QRCodeModal: React.FC<ModalProps> = ({ isOpen, onClose, url }) => {
             >
                 <IoMdClose className="text-white text-2xl" />
             </button>
-            <div id="code" className="relative bg-[#19191B] p-4 rounded-lg m-2">
+            <div ref={qrCodeRef} className="relative bg-[#19191B] p-4 rounded-lg m-2">
                 {url && <QRCode value={url} size={300} />}
             </div>
             <div className='flex justify-center m-2'>

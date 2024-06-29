@@ -102,36 +102,42 @@ const Page = () => {
         setCreating(true)
     
         try {
-          await trybe.createAlbum(
-            name,
-            description,
-            participants,
-            url,
-            visibility,
-            fee
-          )
+            if(fee > 10) {
+                toast.error("Fee cannot be greater than 10 ETH.")
+            } else if(fee < 0.001) {
+                toast.error("Fee cannot be less than 0.001 ETH.")
+            }
+
+            await trybe.createAlbum(
+                name,
+                description,
+                participants,
+                url,
+                visibility,
+                fee * 1000
+            )
     
-          trybe.on("AlbumCreated", (creator, nameOfAlbum, albumId, e) => {
-            console.log(creator, nameOfAlbum, albumId)
+            trybe.on("AlbumCreated", (creator, nameOfAlbum, albumId, e) => {
+                console.log(creator, nameOfAlbum, albumId)
 
-            setID(albumId)
+                setID(albumId)
 
-            setCreating(false)
-    
-            toast.success(`You successfully created an album with ID of ${albumId}`)
+                setCreating(false)
+        
+                toast.success(`You successfully created an album with ID of ${albumId}`)
 
-            handleCloseModal()
+                handleCloseModal()
 
-            setTimeout(() => {
-                handleOpenQRCodeModal()
-            }, 1500);
-          })
+                setTimeout(() => {
+                    handleOpenQRCodeModal()
+                }, 1500);
+            })
         } catch (error) {
           console.log(error)
         
           setCreating(false)
 
-          toast.error("An error occured while creatmg the album")
+          toast.error("An error occured while creating the album")
         }
     }
 
@@ -255,7 +261,7 @@ const Page = () => {
                             </select>
 
                             {visibility == 1 && <label className="block text-sm font-medium text-gray-900 dark:text-white">Fee</label>}
-                            {visibility == 1 && <input value={fee} onChange={(e) => setFee(Number(e.target.value))} placeholder="fee" type="number" className="block mb-2 w-full p-4 text-white rounded-lg bg-[#37373b] text- " />}
+                            {visibility == 1 && <input value={fee} onChange={(e) => setFee(Number(e.target.value))} placeholder="fee" type="number" max={10} min={0.001} step={0.001} className="block mb-2 w-full p-4 text-white rounded-lg bg-[#37373b] text- " />}
                         </div>
                         <div className="flex items-center justify-between">
                             {!uploading &&

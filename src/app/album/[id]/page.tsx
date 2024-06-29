@@ -12,6 +12,7 @@ import { useParams, useRouter } from 'next/navigation';
 const Page = () => {
     const [album, setAlbum] = useState<string[]>([])
     const [joining, setJoining] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const { address, isConnected } = useWeb3ModalAccount();
 
@@ -63,7 +64,10 @@ const Page = () => {
         setJoining(true)
     
         try {
-            await trybe.joinAlbum(id)
+            const fee = Number(album[2]) * 1000
+            console.log(fee)
+
+            await trybe.joinAlbum(id, { value: ethers.parseEther(`${fee}`) })
             
             trybe.on("JoinedAlbum", (participant, timeJoined, e) => {
                 console.log(participant, timeJoined)
@@ -92,8 +96,8 @@ const Page = () => {
             <main className='flex flex-col items-center w-full m-2'>
                 <Image src={"/album.svg"} alt='' width={300} height={200} />
                 <div className='flex flex-col gap-1 items-center'>
-                    <p className='font-bold text-2xl'>Album {album[0]} -- {album[4]}</p>
-                    <p className='text-sm'>{album[5]}</p>
+                    <p className='font-bold text-2xl'>{isConnected ? `Album ${album[0]} -- ${album[4]}` : "Connect your wallet to join this album."}</p>
+                    {isConnected && <p className='text-sm'>{album[5]}</p>}
                 </div>
             </main>
 

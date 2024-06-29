@@ -131,7 +131,7 @@ const Navbar = () => {
         <Link
           className={`link ${pathname === '/' ? 'flex items-center gap-2 text-[#5773ff] text border-b-2 p-4 border-[#5773ff]' : 'flex items-center gap-2 p-4'}`} href="/"  >
           <TbPhoto />
-          <span> All Photos</span>
+          <span> My Photos</span>
         </Link>
 
         <Link
