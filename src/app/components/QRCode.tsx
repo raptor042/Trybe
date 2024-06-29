@@ -7,6 +7,7 @@ import * as htmlToImage from "html-to-image";
 import QRCode from "react-qr-code";
 import { IoDownload } from 'react-icons/io5';
 import toast, { Toaster } from 'react-hot-toast';
+import download from "downloadjs";
 
 interface ModalProps {
     isOpen: boolean;
@@ -23,16 +24,13 @@ const QRCodeModal: React.FC<ModalProps> = ({ isOpen, onClose, url }) => {
         }
     };
 
-    const qrCodeRef = document.getElementById("qrcode")!;
+    const qrCodeRef = document.getElementById("code")!;
 
     const downloadQRCode = () => {
         htmlToImage
           .toPng(qrCodeRef)
           .then(function (dataUrl) {
-            const link = document.createElement("a");
-            link.href = dataUrl;
-            link.download = "qr-code.png";
-            link.click();
+            download(dataUrl, "qr-code.png")
           })
           .catch(function (error) {
             console.error("Error generating QR code:", error);
@@ -53,7 +51,7 @@ const QRCodeModal: React.FC<ModalProps> = ({ isOpen, onClose, url }) => {
             >
                 <IoMdClose className="text-white text-2xl" />
             </button>
-            <div id="qrcode" className="relative bg-[#19191B] p-4 rounded-lg m-2">
+            <div id="code" className="relative bg-[#19191B] p-4 rounded-lg m-2">
                 {url && <QRCode value={url} size={300} />}
             </div>
             <div className='flex justify-center m-2'>

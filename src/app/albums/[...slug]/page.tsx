@@ -158,6 +158,7 @@ const Page = () => {
                 <main className="flex justify-between w-full m-2">
                     <div>
                         <p className='font-bold text-xl'>{title}</p>
+                        <p className='text-sm '>{`${description.slice(0, 42)}...`}</p>
                     </div>
 
                     <button 
