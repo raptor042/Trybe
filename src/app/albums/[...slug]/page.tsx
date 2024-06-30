@@ -22,11 +22,12 @@ const Page = () => {
     const inputFile = useRef<HTMLInputElement>(null);
 
     const [album, setAlbum] = useState<string[]>([]);
-    const [file, setFile] = useState<File>();
+    const [files, setFiles] = useState<FileList>();
 
     const [fee, setFee] = useState("0");
 
     const [charge, setCharge] = useState(0);
+    const [owner, setOwner] = useState("");
 
     const [url, setURL] = useState("");
     const [date, setDate] = useState("");
@@ -101,7 +102,7 @@ const Page = () => {
         return `${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${IpfsHash}`;
     }
 
-    const handleFileUpload = async (file: File) => {
+    const handleFileUpload = async (files: FileList) => {
         setUploading(true);
         
         const signer = await provider?.getSigner();
@@ -113,18 +114,23 @@ const Page = () => {
         );
     
         try {
-            const uploadedFile = await uploadFile(file);
-        
-            await trybe.addImageToAlbum(slug?.[1], uploadedFile, `${album[4]} - ${album[5]}`, Number(fee) * 1000);
-        
-            trybe.on("ImageAdded", (albumId, imageId, e) => {
-                console.log(albumId, imageId);
-        
-                toast.success(`You successfully uploaded an photo.`);
-            })
+            for (let i = 0; i < files.length; i++) {
+                const uploadedFile = await uploadFile(files[0]);
+            
+                await trybe.addImageToAlbum(slug?.[1], uploadedFile, `${album[4]} - ${album[5]}`, Number(fee) * 1000);
+            
+                trybe.on("ImageAdded", (albumId, imageId, e) => {
+                    console.log(albumId, imageId);
+            
+                    toast.success(`You successfully uploaded an photo.`);
+                })
+    
+                setImages((prevFile) => [...prevFile, uploadedFile])
+            }
 
-            setImages((prevFile) => [...prevFile, uploadedFile])
             setUploading(false);
+            handleCloseFeeModal()
+            window.location.reload();
         } catch (e) {
             console.log(e);
             toast.error("Trouble uploading photo");
@@ -133,8 +139,8 @@ const Page = () => {
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const filesArray = e?.target?.files?.[0]!;
-        handleFileUpload(filesArray);
+        const filesArray = e?.target?.files;
+        handleFileUpload(filesArray!);
     }
 
     const handleOpenFeeModal = () => {
@@ -149,6 +155,7 @@ const Page = () => {
         setURL(image)
         setID(imgs[index][0])
         setCharge(imgs[index][5])
+        setOwner(imgs[index][3])
 
         const timestamp = imgs[index][4]
         console.log(timestamp)
@@ -173,22 +180,24 @@ const Page = () => {
                 onChange={handleChange}
                 style={{ display: "none" }}
             />
-            <section className='p-3 md:px-44'>
-                <main className="flex justify-between w-full m-2">
-                    <div>
-                        <p className='font-bold text-xl'>{album[4]}</p>
-                        <p className='text-gray-400'>{`${album[5].slice(0, 42)}...`}</p>
-                    </div>
+            <section className='p-5 md:px-44'>
+                {album.length > 0 && !loading &&
+                    <main className="flex md:justify-between gap-5 w-full m-2">
+                        <div>
+                            <p className='font-bold md:text-xl text'>{album[4]}</p>
+                            <p className='text-gray-400 md:text-md text-xs'>{`${album[5].slice(0, 42)}...`}</p>
+                        </div>
 
-                    <button 
-                        disabled={uploading && !isConnected}
-                        onClick={() => album[1] ? inputFile.current?.click() : handleOpenFeeModal()} 
-                        className='flex items-center p-1 rounded gap-3 px-5 bg-[#5773ff]'
-                    >
-                        <IoAdd />
-                        <p>Add Image</p>
-                    </button>
-                </main>
+                        <button 
+                            disabled={uploading && !isConnected}
+                            onClick={() => album[1] ? inputFile.current?.click() : handleOpenFeeModal()} 
+                            className='flex items-center p-1 rounded-2xl gap-3 px-5 bg-[#5773ff]'
+                        >
+                            <IoAdd />
+                            <p className='md:text-md text-xs'>Add Image</p>
+                        </button>
+                    </main>
+                }
 
                 {images.length === 0 && !loading &&
                     <main className='flex flex-col items-center w-full'>
@@ -243,15 +252,15 @@ const Page = () => {
                             />
 
                             <label className="block text-sm font-medium text-gray-900 dark:text-white">Upload file</label>
-                            <input onChange={(e) => setFile(e?.target?.files?.[0]!)} className="block mb-2 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-white dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" />
+                            <input onChange={(e) => setFiles(e?.target?.files!)} className="block mb-2 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-white dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" multiple />
                         </div>
 
                         <div className='m-2'>
-                            {file !== null &&
+                            {files !== null &&
                                 <button
                                     type="button"
                                     className="bg-blue-500 rounded-md hover:bg-blue-700 text-white font-bold text-sm py-2 px-4 w-full flex justify-center"
-                                    onClick={() => handleFileUpload(file!)}
+                                    onClick={() => handleFileUpload(files!)}
                                     disabled={uploading}
                                 >
                                     {!uploading && "Create Album"}
@@ -269,7 +278,7 @@ const Page = () => {
                         </div>
                     </div>
                 </FeeModal>
-                <ImageModal isOpen={isImgModalOpen} onClose={handleCloseImgModal} url={url} date={date} albumId={Number(slug?.[1])} imageId={Number(ID)} visibility={Boolean(album[1])} fee={charge} />
+                <ImageModal isOpen={isImgModalOpen} onClose={handleCloseImgModal} url={url} date={date} albumId={Number(slug?.[1])} imageId={Number(ID)} visibility={Boolean(album[1])} fee={charge} owner={owner} />
             </section>
         </>
     );

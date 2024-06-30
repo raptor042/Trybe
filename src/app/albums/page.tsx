@@ -15,6 +15,7 @@ import AlbumModal from '../components/albumModal';
 const Page = () => {
     const [isAlbumModalOpen, setIsAlbumModalOpen] = useState(false);
     const [albums, setAlbums] = useState<[]>([]);
+    const [noOfAlbums, setNoOfAlbums] = useState();
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
     const [participants, setParticipants] = useState<string[]>([])
@@ -54,6 +55,9 @@ const Page = () => {
         try {
             const albums = await trybe.getAlbums()
             console.log(albums)
+
+            const noOfAlbums = await trybe.totalNoOfAlbumsCreated()
+            console.log(noOfAlbums)
 
             setAlbums(albums)
             setLoading(false)
@@ -122,18 +126,18 @@ const Page = () => {
             trybe.on("AlbumCreated", (creator, nameOfAlbum, albumId, e) => {
                 console.log(creator, nameOfAlbum, albumId)
 
-                setID(albumId)
-
-                setCreating(false)
-
                 toast.success(`You successfully created an album with ID of ${albumId}`)
-
-                handleCloseModal()
-
-                setTimeout(() => {
-                    handleOpenQRCodeModal()
-                }, 1500);
             })
+
+            setID(noOfAlbums! + 1)
+
+            setCreating(false)
+
+            handleCloseModal()
+
+            setTimeout(() => {
+                handleOpenQRCodeModal()
+            }, 1500);
         } catch (error) {
             console.log(error)
 
@@ -266,7 +270,7 @@ const Page = () => {
                             {visibility == 1 && <input value={fee} onChange={(e) => setFee(e.target.value)} placeholder="fee" type="text" step={0.001} className="block mb-2 w-full p-4 text-white rounded-lg bg-[#37373b] text- " />}
                         </div>
                         <div className="flex items-center justify-between">
-                            {uploading &&
+                            {!uploading &&
                                 <button
                                     type="button"
                                     className="bg-blue-500 rounded-md hover:bg-blue-700 text-white font-bold text-sm py-2 px-4 w-full flex justify-center"

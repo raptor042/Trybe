@@ -72,20 +72,19 @@ const Page = () => {
             await trybe.joinAlbum(id, { value: ethers.parseEther(`${fee}`) })
             
             trybe.on("JoinedAlbum", (participant, timeJoined, e) => {
-                console.log(participant, timeJoined)
-    
-                setJoining(false)
+                console.log(participant, timeJoined);
         
                 toast.success(`You successfully joined the ${album[4]} album`)
-
-                setTimeout(() => {
-                    if(album[1]) {
-                        router.push(`/albums/public/${id}`)
-                    } else {
-                        router.push(`/albums/private/${id}`)
-                    }
-                }, 2000);
             })
+
+            setJoining(false)
+            setTimeout(() => {
+                if(album[1]) {
+                    window.location.assign(`/albums/public/${id}`)
+                } else {
+                    window.location.assign(`/albums/private/${id}`)
+                }
+            }, 3000);
         } catch (error) {
             console.log(error)
 

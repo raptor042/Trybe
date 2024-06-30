@@ -82,7 +82,7 @@ export default function Home() {
     return `${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${IpfsHash}`;
   };
 
-  const handleFileUpload = async (file: File) => {
+  const handleFileUpload = async (files: FileList) => {
     setUploading(true);
     
     const signer = await provider?.getSigner();
@@ -94,17 +94,20 @@ export default function Home() {
     );
 
     try {
-      const uploadedFile = await uploadFile(file);
+      for (let i = 0; i < files.length; i++) {
+        const uploadedFile = await uploadFile(files[i]);
 
-      await trybe.upload(uploadedFile);
+        await trybe.upload(uploadedFile);
 
-      trybe.on("Upload", (user, url, createdAt, e) => {
-        console.log(user, url, createdAt);
+        trybe.on("Upload", (user, url, createdAt, e) => {
+          console.log(user, url, createdAt);
 
-        toast.success(`You successfully created an image.`);
-      })
+          toast.success(`You successfully created an image.`);
+        })
 
-      addFile(uploadedFile); // Append the new files to the existing state
+        addFile(uploadedFile); // Append the new files to the existing state
+      }
+  
       setUploading(false);
     } catch (e) {
       console.log(e);
@@ -114,8 +117,8 @@ export default function Home() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const filesArray = e?.target?.files?.[0]!;
-    handleFileUpload(filesArray);
+    const filesArray = e?.target?.files;
+    handleFileUpload(filesArray!);
   };
 
   const openModal = (imageUrl: string) => {
@@ -137,6 +140,7 @@ export default function Home() {
         ref={inputFile}
         onChange={handleChange}
         style={{ display: "none" }}
+        multiple
       />
       <div>
 

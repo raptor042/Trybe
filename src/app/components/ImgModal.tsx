@@ -18,9 +18,10 @@ interface ModalProps {
     imageId: number | null;
     visibility: boolean | null;
     fee: number | number;
+    owner: string | null;
 }
 
-const ImageModal: React.FC<ModalProps> = ({ isOpen, onClose, url, date, albumId, imageId, visibility, fee }) => {
+const ImageModal: React.FC<ModalProps> = ({ isOpen, onClose, url, date, albumId, imageId, visibility, fee, owner }) => {
     if (!isOpen) return null;
 
     const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -37,6 +38,7 @@ const ImageModal: React.FC<ModalProps> = ({ isOpen, onClose, url, date, albumId,
 
     const downloadIMG = async () => {
         const signer = await provider?.getSigner();
+        const address = await signer.getAddress()
     
         const trybe = new ethers.Contract(
           TRYBE_CA,
@@ -45,7 +47,7 @@ const ImageModal: React.FC<ModalProps> = ({ isOpen, onClose, url, date, albumId,
         );
 
         try {
-            if(!visibility) {
+            if(!visibility && address != owner) {
                 await trybe.download(albumId, imageId, { value: ethers.parseEther(`${fee}`) })
 
                 trybe.on("ImageDownloaded", (albumId, imageId, e) => {
