@@ -1,4 +1,4 @@
-export const TRYBE_CA = "0xB2a3B20970771D1bD7E42452734cB50A6B174466"
+export const TRYBE_CA = "0x377B3ce21eF7A5eA882D437d2828916167Fa3dF2"
 
 export const TRYBE_ABI = [
   {
@@ -54,6 +54,25 @@ export const TRYBE_ABI = [
       }
     ],
     "name": "ImageAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "albumId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "imageId",
+        "type": "uint256"
+      }
+    ],
+    "name": "ImageDownloaded",
     "type": "event"
   },
   {
@@ -146,9 +165,9 @@ export const TRYBE_ABI = [
         "type": "string"
       },
       {
-        "internalType": "uint8",
+        "internalType": "bool",
         "name": "visibility",
-        "type": "uint8"
+        "type": "bool"
       },
       {
         "internalType": "uint256",
@@ -166,6 +185,11 @@ export const TRYBE_ABI = [
       {
         "internalType": "uint256",
         "name": "albumId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "imageId",
         "type": "uint256"
       }
     ],
@@ -192,9 +216,9 @@ export const TRYBE_ABI = [
             "type": "uint256"
           },
           {
-            "internalType": "uint8",
+            "internalType": "bool",
             "name": "visibility",
-            "type": "uint8"
+            "type": "bool"
           },
           {
             "internalType": "uint256",
@@ -257,9 +281,9 @@ export const TRYBE_ABI = [
             "type": "uint256"
           },
           {
-            "internalType": "uint8",
+            "internalType": "bool",
             "name": "visibility",
-            "type": "uint8"
+            "type": "bool"
           },
           {
             "internalType": "uint256",
