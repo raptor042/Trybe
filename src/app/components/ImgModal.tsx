@@ -5,15 +5,20 @@ import Link from "next/link";
 import { IoDownload } from "react-icons/io5";
 import Image from "next/image";
 import download from "downloadjs";
+import { BrowserProvider, Eip1193Provider, ethers } from "ethers";
+import { TRYBE_ABI, TRYBE_CA } from "../config";
+import toast, { Toaster } from 'react-hot-toast';
 
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     url: string | null;
     date: string | null;
+    albumId: number | null;
+    imageId: number | null;
 }
 
-const ImageModal: React.FC<ModalProps> = ({ isOpen, onClose, url, date }) => {
+const ImageModal: React.FC<ModalProps> = ({ isOpen, onClose, url, date, albumId, imageId }) => {
     if (!isOpen) return null;
 
     const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -22,12 +27,41 @@ const ImageModal: React.FC<ModalProps> = ({ isOpen, onClose, url, date }) => {
         }
     };
 
-    const downloadIMG = () => {
-        download(url!, "photo.png")
+    let provider: BrowserProvider;
+
+    if (window.ethereum) {
+        provider = new ethers.BrowserProvider(window.ethereum as unknown as Eip1193Provider);
+    }
+
+    const downloadIMG = async () => {
+        const signer = await provider?.getSigner();
+    
+        const trybe = new ethers.Contract(
+          TRYBE_CA,
+          TRYBE_ABI,
+          signer
+        );
+
+        try {
+            await trybe.download(albumId, imageId)
+
+            trybe.on("ImageDownloaded", (albumId, imageId, e) => {
+                console.log(albumId, imageId)
+        
+                toast.success(`You successfully downloaded the image.`)
+
+                download(url!, "photo.png")
+            })
+        } catch (error) {
+            console.log(error)
+
+            toast.error("An error occured while downloading the image.")
+        }
     };
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" onClick={handleOverlayClick}>
+            <Toaster />
             <div className="relative bg-[#19191B] p-4 rounded-lg">
                 <button className="absolute top-2 right-2 text-black rounded-full p-2" onClick={onClose}>
                     <IoMdClose className="text-white" />

@@ -9,7 +9,7 @@ import { useWeb3ModalAccount, useWeb3ModalProvider } from '@web3modal/ethers/rea
 import { BrowserProvider, ethers } from 'ethers';
 import { TRYBE_ABI, TRYBE_CA } from '../../config';
 import toast, { Toaster } from 'react-hot-toast';
-import Modal from '../../components/model';
+import Modal from '../../components/Modal';
 import { useParams } from 'next/navigation';
 import ImageModal from '@/app/components/ImgModal';
 
@@ -25,6 +25,7 @@ const Page = () => {
 
     const [url, setURL] = useState("");
     const [date, setDate] = useState("");
+    const [ID, setID] = useState("")
 
     const [imgs, setImgs] = useState([]);
 
@@ -134,6 +135,7 @@ const Page = () => {
 
     const handleOpenImgModal = (image: string, index: number) => {
         setURL(image)
+        setID(imgs[index][0])
 
         const timestamp = imgs[index][4]
         console.log(timestamp)
@@ -210,7 +212,7 @@ const Page = () => {
                         ))}
                     </div>
                 }
-                <ImageModal isOpen={isImgModalOpen} onClose={handleCloseImgModal} url={url} date={date} />
+                <ImageModal isOpen={isImgModalOpen} onClose={handleCloseImgModal} url={url} date={date} albumId={Number(slug?.[1])} imageId={Number(ID)} />
             </section>
         </>
     );

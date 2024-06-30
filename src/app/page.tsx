@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import Image from 'next/image';
-import Modal from './components/model';
+import Modal from './components/Modal';
 import { useWeb3ModalAccount, useWeb3ModalProvider } from '@web3modal/ethers/react';
 import toast, { Toaster } from 'react-hot-toast';
 import { BrowserProvider, ethers } from 'ethers';
