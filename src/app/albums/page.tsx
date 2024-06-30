@@ -164,16 +164,16 @@ const Page = () => {
     return (
         <>
             <Toaster />
-            <section className='p-3 md:px-44'>
-                <main className="flex justify-between w-full m-2">
+            <section className='p-5 md:px-44'>
+                <main className="flex md:justify-between gap-5 w-full m-2">
                     <div>
-                        <p className='font-bold text-xl'>Albums</p>
-                        <p className='text-gray-400'>Create, view and share your albums</p>
+                        <p className='font-bold md:text-xl text'>Albums</p>
+                        <p className='text-gray-400 md:text-md text-xs '>Create, view and share your albums</p>
                     </div>
 
                     <button className='flex items-center p-1 rounded-2xl gap-3 px-5 bg-[#5773ff]' onClick={handleOpenModal}>
-                        <IoAdd />
-                        <p>New Album</p>
+                        <IoAdd className='' />
+                        <p className='md:text-md text-xs'>New Album</p>
                     </button>
                 </main>
 
@@ -252,7 +252,8 @@ const Page = () => {
                             <label className="block text-sm font-medium text-gray-900 dark:text-white">Collaborators</label>
                             <input value={participants} onChange={(e) => setParticipants(e.target.value.split(","))} placeholder="Add collaborators" type="text" className="block mb-2 w-full p-4 text-white rounded-lg bg-[#37373b] text- " />
 
-
+                            <label className="block text-sm font-medium text-gray-900 dark:text-white">Upload file</label>
+                            <input onChange={handleChange} className="block mb-2 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-white dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" />
 
 
                             <label className="block text-sm font-medium text-gray-900 dark:text-white">Select type of album</label>
@@ -285,7 +286,6 @@ const Page = () => {
                                 </button>
                             }
                         </div>
-
                     </form>
                 </div>
             </AlbumModal>
