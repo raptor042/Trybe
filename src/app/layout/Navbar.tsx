@@ -100,15 +100,15 @@ const Navbar = () => {
         onChange={handleChange}
         style={{ display: "none" }}
       />
-      <main className="md:p-5 py-5 px-4  md:px-10 flex justify-between items-center w-full">
+      <main className="md:p-5 py-5 px-2  md:px-10 flex justify-between items-center w-full">
         <Image src={"/loggo.svg"} alt="" width={50} height={100} />
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center md:gap-4">
           {pathname === '/' &&
             <button
               disabled={uploading && !isConnected}
               onClick={() => inputFile.current?.click()} // Safely use optional chaining
-              className="border-[#5773ff] text-[#5773ff] border-2 px-3 py-3 flex items-center gap-3 rounded-xl">
+              className="border-[#5773ff] text-[#5773ff] border-2 px-2 py-2  md:px-3 md:py-3 flex items-center gap-3 rounded-xl">
               {!uploading && <IoAdd />}
               {uploading &&
                 <div role="status">
@@ -122,7 +122,7 @@ const Navbar = () => {
             </button>
           }
           <button className="  font-light text-white px-4 py-1 flex items-center gap-1 rounded-xl ">
-            <IoWallet />
+            <IoWallet className="hidden md:flex" />
             <w3m-button balance={"hide"} />
           </button>
         </div>
