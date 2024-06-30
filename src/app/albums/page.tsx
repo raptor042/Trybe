@@ -137,7 +137,7 @@ const Page = () => {
 
             setTimeout(() => {
                 handleOpenQRCodeModal()
-            }, 1500);
+            }, 5000);
         } catch (error) {
             console.log(error)
 
