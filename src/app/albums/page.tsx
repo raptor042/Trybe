@@ -15,7 +15,7 @@ import AlbumModal from '../components/albumModal';
 const Page = () => {
     const [isAlbumModalOpen, setIsAlbumModalOpen] = useState(false);
     const [albums, setAlbums] = useState<[]>([]);
-    const [noOfAlbums, setNoOfAlbums] = useState();
+    const [noOfAlbums, setNoOfAlbums] = useState<number>();
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
     const [participants, setParticipants] = useState<string[]>([])
@@ -25,7 +25,7 @@ const Page = () => {
     const [creating, setCreating] = useState(false)
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(true);
-    const [ID, setID] = useState<number>()
+    const [ID, setID] = useState<number>(0)
 
     const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
 
@@ -58,6 +58,7 @@ const Page = () => {
 
             const noOfAlbums = await trybe.totalNoOfAlbumsCreated()
             console.log(noOfAlbums)
+            setNoOfAlbums(Number(noOfAlbums))
 
             setAlbums(albums)
             setLoading(false)
@@ -127,6 +128,8 @@ const Page = () => {
                 console.log(creator, nameOfAlbum, albumId)
 
                 toast.success(`You successfully created an album with ID of ${albumId}`)
+
+                // handleOpenQRCodeModal()
             })
 
             setID(noOfAlbums! + 1)
@@ -137,7 +140,7 @@ const Page = () => {
 
             setTimeout(() => {
                 handleOpenQRCodeModal()
-            }, 5000);
+            }, 3000);
         } catch (error) {
             console.log(error)
 

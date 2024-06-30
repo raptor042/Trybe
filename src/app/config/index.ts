@@ -1,4 +1,4 @@
-export const TRYBE_CA = "0x13e2c02a5aC9ec832a6425DC26C5b41A354082e3"
+export const TRYBE_CA = "0xBf8eE46693707cf6910e9292bD160f091F2f0aeb"
 
 export const TRYBE_ABI = [
   {
@@ -105,6 +105,12 @@ export const TRYBE_ABI = [
       },
       {
         "indexed": false,
+        "internalType": "string",
+        "name": "url",
+        "type": "string"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "createdAt",
         "type": "uint256"
@@ -121,9 +127,9 @@ export const TRYBE_ABI = [
         "type": "uint256"
       },
       {
-        "internalType": "string[]",
-        "name": "urls",
-        "type": "string[]"
+        "internalType": "string",
+        "name": "url",
+        "type": "string"
       },
       {
         "internalType": "string",
@@ -514,9 +520,9 @@ export const TRYBE_ABI = [
   {
     "inputs": [
       {
-        "internalType": "string[]",
-        "name": "urls",
-        "type": "string[]"
+        "internalType": "string",
+        "name": "url",
+        "type": "string"
       }
     ],
     "name": "upload",

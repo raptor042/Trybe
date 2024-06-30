@@ -71,15 +71,15 @@ const Navbar = () => {
         const uploadedFile = await uploadFile(_files[i]);
 
         addFile(uploadedFile); // Append the new files to the existing state
+
+        await trybe.upload(uploadedFile);
+
+        trybe.on("Upload", (user, url, createdAt, e) => {
+          console.log(user, url, createdAt);
+
+          toast.success(`You successfully uploaded an image.`);
+        })
       }
-
-      await trybe.upload(files);
-
-      trybe.on("Upload", (user, url, createdAt, e) => {
-        console.log(user, url, createdAt);
-
-        toast.success(`You successfully created an image.`);
-      })
 
       setUploading(false);
     } catch (e) {

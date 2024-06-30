@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
-import { IoAdd } from "react-icons/io5";
+import { IoAdd, IoDownload } from "react-icons/io5";
 import AlbumModal from '../../components/albumModal';
 import { TbLibraryPhoto } from "react-icons/tb";
 import { useWeb3ModalAccount, useWeb3ModalProvider } from '@web3modal/ethers/react';
@@ -13,6 +13,7 @@ import Modal from '../../components/Modal';
 import { useParams } from 'next/navigation';
 import ImageModal from '@/app/components/ImgModal';
 import FeeModal from '@/app/components/FeeModal';
+import download from 'downloadjs';
 
 const Page = () => {
     const [loading, setLoading] = useState(true);
@@ -118,15 +119,15 @@ const Page = () => {
                 const uploadedFile = await uploadFile(files[i]);
     
                 setImages((prevFile) => [...prevFile, uploadedFile])
-            }
 
-            await trybe.addImageToAlbum(slug?.[1], images, `${album[4]}: ${album[5]}`, Number(fee) * 1000);
+                await trybe.addImageToAlbum(slug?.[1], uploadedFile, `${album[4]}: ${album[5]}`, Number(fee) * 1000);
             
-            trybe.on("ImageAdded", (albumId, imageId, e) => {
-                console.log(albumId, imageId);
-        
-                toast.success(`You successfully uploaded an photo.`);
-            })
+                trybe.on("ImageAdded", (albumId, imageId, e) => {
+                    console.log(albumId, imageId);
+            
+                    toast.success(`You successfully uploaded an photo.`);
+                })
+            }
 
             setUploading(false);
             handleCloseFeeModal()
@@ -154,7 +155,7 @@ const Page = () => {
     const handleOpenImgModal = (image: string, index: number) => {
         setURL(image)
         setID(imgs[index][0])
-        setCharge(imgs[index][5])
+        setCharge(Number(ethers.formatEther(imgs[index][5])))
         setOwner(imgs[index][3])
 
         const timestamp = imgs[index][4]
@@ -168,6 +169,36 @@ const Page = () => {
 
     const handleCloseImgModal = () => {
         setIsImgModalOpen(false);
+    };
+
+    const downloadIMG = async () => {
+        const signer = await provider?.getSigner();
+    
+        const trybe = new ethers.Contract(
+          TRYBE_CA,
+          TRYBE_ABI,
+          signer
+        );
+
+        try {
+            if(!album[1] && address != owner) {
+                await trybe.download(Number(slug?.[1]), Number(ID), { value: ethers.parseEther(`${charge}`) })
+
+                trybe.on("ImageDownloaded", (albumId, imageId, e) => {
+                    console.log(albumId, imageId)
+
+                    toast.success(`You successfully downloaded the image.`)
+                })
+            }
+
+            download(url!, "photo.png")
+
+            handleCloseImgModal()
+        } catch (error) {
+            console.log(error)
+
+            toast.error("An error occured while downloading the image.")
+        }
     };
 
     return (
@@ -278,7 +309,20 @@ const Page = () => {
                         </div>
                     </div>
                 </FeeModal>
-                <ImageModal isOpen={isImgModalOpen} onClose={handleCloseImgModal} url={url} date={date} albumId={Number(slug?.[1])} imageId={Number(ID)} visibility={Boolean(album[1])} fee={charge} owner={owner} />
+                <ImageModal isOpen={isImgModalOpen} onClose={handleCloseImgModal}>
+                    <div className="relative bg-[#19191B] p-4 rounded-lg mt-4 mb-2">
+                        {url && <Image src={url} width={300} height={150} alt="" />}
+                    </div>
+                    <div className='flex items-center justify-between m-3'>
+                        {date && <p className='text-sm font-medium text-center text-white'>Uploaded at {date}</p>}
+                        <div className='flex justify-center m-3'>
+                            <button onClick={downloadIMG} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                Download
+                                <IoDownload />
+                            </button>
+                        </div>
+                    </div>
+                </ImageModal>
             </section>
         </>
     );
