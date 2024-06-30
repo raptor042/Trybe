@@ -102,9 +102,9 @@ const Page = () => {
         setCreating(true)
     
         try {
-            if(fee > 10) {
+            if(visibility == 1 && fee > 10) {
                 toast.error("Fee cannot be greater than 10 ETH.")
-            } else if(fee < 0.001) {
+            } else if(visibility == 1 && fee < 0.001) {
                 toast.error("Fee cannot be less than 0.001 ETH.")
             }
 
