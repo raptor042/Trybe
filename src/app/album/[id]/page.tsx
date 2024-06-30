@@ -66,7 +66,7 @@ const Page = () => {
         setJoining(true)
     
         try {
-            const fee = Number(ethers.formatEther(album[2])) / 1000
+            const fee = Number(ethers.formatEther(album[2]))
             console.log(fee)
 
             await trybe.joinAlbum(id, { value: ethers.parseEther(`${fee}`) })
