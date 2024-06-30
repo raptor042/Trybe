@@ -25,8 +25,6 @@ const QRCodeModal: React.FC<ModalProps> = ({ isOpen, onClose, url }) => {
         }
     };
 
-    const [copied, setCopied] = useState(false)
-
     const downloadQRCode = () => {
         htmlToImage
           .toPng(document.getElementById("qr-code")!)
@@ -40,15 +38,6 @@ const QRCodeModal: React.FC<ModalProps> = ({ isOpen, onClose, url }) => {
           });
     };
 
-    const copyText = async () => {
-        await navigator.clipboard.writeText(url)
-        setCopied(true)
-
-        setTimeout(() => {
-            setCopied(false)
-        }, 2000);
-    }
-
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" onClick={handleOverlayClick}>
             <div className="relative bg-[#19191B] p-4 rounded-lg">
@@ -60,11 +49,6 @@ const QRCodeModal: React.FC<ModalProps> = ({ isOpen, onClose, url }) => {
                 </div>
                 <div className='flex items-center gap-2 m-3'>
                     <Link href={url} className='text-sm font-medium text-center text-white'>{url}</Link>
-                    <button onClick={copyText} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        {!copied && "Copy"}
-                        {!copied && <IoCopy />}
-                        {copied && "Copied"}
-                    </button>
                 </div>
                 <div className='flex justify-center m-3'>
                     <button onClick={downloadQRCode} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
