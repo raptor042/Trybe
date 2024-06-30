@@ -82,7 +82,7 @@ export default function Home() {
     return `${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${IpfsHash}`;
   };
 
-  const handleFileUpload = async (files: FileList) => {
+  const handleFileUpload = async (_files: FileList) => {
     setUploading(true);
     
     const signer = await provider?.getSigner();
@@ -94,11 +94,13 @@ export default function Home() {
     );
 
     try {
-      for (let i = 0; i < files.length; i++) {
-        const uploadedFile = await uploadFile(files[i]);
+      for (let i = 0; i < _files.length; i++) {
+        const uploadedFile = await uploadFile(_files[i]);
 
         addFile(uploadedFile); // Append the new files to the existing state
       }
+
+      console.log(files)
 
       await trybe.upload(files);
 

@@ -22,7 +22,8 @@ const Navbar = () => {
 
   const inputFile = useRef<HTMLInputElement>(null);
 
-  const { dispatch } = useContext(store)!
+  const { state, dispatch } = useContext(store)!
+  const { files } = state
 
   const { address, isConnected } = useWeb3ModalAccount();
 
@@ -54,7 +55,7 @@ const Navbar = () => {
     return `${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${IpfsHash}`;
   };
 
-  const handleFileUpload = async (file: File) => {
+  const handleFileUpload = async (_files: FileList) => {
     setUploading(true);
 
     const signer = await provider?.getSigner();
@@ -66,9 +67,13 @@ const Navbar = () => {
     );
 
     try {
-      const uploadedFile = await uploadFile(file);
+      for (let i = 0; i < _files.length; i++) {
+        const uploadedFile = await uploadFile(_files[i]);
 
-      await trybe.upload(uploadedFile);
+        addFile(uploadedFile); // Append the new files to the existing state
+      }
+
+      await trybe.upload(files);
 
       trybe.on("Upload", (user, url, createdAt, e) => {
         console.log(user, url, createdAt);
@@ -76,7 +81,6 @@ const Navbar = () => {
         toast.success(`You successfully created an image.`);
       })
 
-      addFile(uploadedFile); // Append the new files to the existing state
       setUploading(false);
     } catch (e) {
       console.log(e);
@@ -86,8 +90,8 @@ const Navbar = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const filesArray = e?.target?.files?.[0]!;
-    handleFileUpload(filesArray);
+    const filesArray = e?.target?.files;
+    handleFileUpload(filesArray!);
   };
 
   return (
@@ -99,6 +103,7 @@ const Navbar = () => {
         ref={inputFile}
         onChange={handleChange}
         style={{ display: "none" }}
+        multiple
       />
       <main className="md:p-5 py-5 px-2  md:px-10 flex justify-between items-center w-full">
         <Image src={"/loggo.svg"} alt="" width={50} height={100} />

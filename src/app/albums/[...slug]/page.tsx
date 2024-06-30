@@ -115,7 +115,7 @@ const Page = () => {
     
         try {
             for (let i = 0; i < files.length; i++) {
-                const uploadedFile = await uploadFile(files[0]);
+                const uploadedFile = await uploadFile(files[i]);
     
                 setImages((prevFile) => [...prevFile, uploadedFile])
             }
