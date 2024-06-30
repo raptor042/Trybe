@@ -47,10 +47,10 @@ const ImageModal: React.FC<ModalProps> = ({ isOpen, onClose, url, date, albumId,
 
             trybe.on("ImageDownloaded", (albumId, imageId, e) => {
                 console.log(albumId, imageId)
-        
-                toast.success(`You successfully downloaded the image.`)
 
                 download(url!, "photo.png")
+
+                toast.success(`You successfully downloaded the image.`)
             })
         } catch (error) {
             console.log(error)
