@@ -184,7 +184,7 @@ const Page = () => {
 
                     <button 
                         disabled={uploading && !isConnected}
-                        onClick={() => visibility ? handleOpenFeeModal() : inputFile.current?.click()} 
+                        onClick={() => visibility ? inputFile.current?.click() : handleOpenFeeModal()} 
                         className='flex items-center p-1 rounded gap-3 px-5 bg-[#5773ff]'
                     >
                         <IoAdd />
