@@ -36,7 +36,7 @@ const ImageModal: React.FC<ModalProps> = ({ isOpen, onClose, url, date }) => {
                     {url && <Image src={url} width={300} height={150} alt="" />}
                 </div>
                 <div className='flex items-center justify-between m-3'>
-                    {date && <p className='text-sm font-medium text-center text-white'>{date}</p>}
+                    {date && <p className='text-sm font-medium text-center text-white'>Uploaded at {date}</p>}
                     <div className='flex justify-center m-3'>
                         <button onClick={downloadIMG} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             Download

@@ -138,8 +138,8 @@ const Page = () => {
         const timestamp = imgs[index][4]
         console.log(timestamp)
 
-        const date = new Date(timestamp * 1000)
-        setDate(date.toISOString())
+        const date = new Date(Number(timestamp) * 1000)
+        setDate(date.toLocaleDateString())
 
         setIsImgModalOpen(true);
     };

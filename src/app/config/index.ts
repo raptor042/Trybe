@@ -346,6 +346,11 @@ export const TRYBE_ABI = [
             "internalType": "address",
             "name": "owner",
             "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "created",
+            "type": "uint256"
           }
         ],
         "internalType": "struct Trybe.Image",
@@ -400,6 +405,11 @@ export const TRYBE_ABI = [
             "internalType": "address",
             "name": "owner",
             "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "created",
+            "type": "uint256"
           }
         ],
         "internalType": "struct Trybe.Image[]",
