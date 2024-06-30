@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { IoAdd } from "react-icons/io5";
-import AlbumModal from '../../components/AlbumModal';
+import AlbumModal from '../../components/albumModal';
 import { TbLibraryPhoto } from "react-icons/tb";
 import { useWeb3ModalAccount, useWeb3ModalProvider } from '@web3modal/ethers/react';
 import { BrowserProvider, ethers } from 'ethers';

@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { IoAdd } from "react-icons/io5";
-import AlbumModal from '../components/AlbumModal';
 import { TbLibraryPhoto } from "react-icons/tb";
 import { useWeb3ModalAccount, useWeb3ModalProvider } from '@web3modal/ethers/react';
 import { BrowserProvider, ethers } from 'ethers';
@@ -11,6 +10,7 @@ import { TRYBE_ABI, TRYBE_CA } from '../config';
 import toast, { Toaster } from 'react-hot-toast';
 import Link from 'next/link';
 import QRCodeModal from '../components/QRCode';
+import AlbumModal from '../components/albumModal';
 
 const Page = () => {
     const [isAlbumModalOpen, setIsAlbumModalOpen] = useState(false);
