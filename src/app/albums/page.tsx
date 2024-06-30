@@ -108,12 +108,14 @@ const Page = () => {
                 toast.error("Fee cannot be less than 0.001 ETH.")
             }
 
+            const visible = visibility == 0 ? true : false
+
             await trybe.createAlbum(
                 name,
                 description,
                 participants,
                 url,
-                visibility,
+                visible,
                 fee * 1000
             )
     

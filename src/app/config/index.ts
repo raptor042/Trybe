@@ -1,4 +1,4 @@
-export const TRYBE_CA = "0x377B3ce21eF7A5eA882D437d2828916167Fa3dF2"
+export const TRYBE_CA = "0x7D16ed046e22e797E466fc09CFcAD7a849346cbA"
 
 export const TRYBE_ABI = [
   {
@@ -135,6 +135,11 @@ export const TRYBE_ABI = [
         "internalType": "string",
         "name": "_description",
         "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_fee",
+        "type": "uint256"
       }
     ],
     "name": "addImageToAlbum",
@@ -375,6 +380,11 @@ export const TRYBE_ABI = [
             "internalType": "uint256",
             "name": "created",
             "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "fee",
+            "type": "uint256"
           }
         ],
         "internalType": "struct Trybe.Image",
@@ -433,6 +443,11 @@ export const TRYBE_ABI = [
           {
             "internalType": "uint256",
             "name": "created",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "fee",
             "type": "uint256"
           }
         ],
