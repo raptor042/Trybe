@@ -11,6 +11,7 @@ import { TRYBE_ABI, TRYBE_CA } from '../../config';
 import toast, { Toaster } from 'react-hot-toast';
 import Modal from '../../components/model';
 import { useParams } from 'next/navigation';
+import ImageModal from '@/app/components/ImgModal';
 
 const Page = () => {
     const [loading, setLoading] = useState(true);
@@ -22,8 +23,12 @@ const Page = () => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
-    const [modalOpen, setModalOpen] = useState(false);
-    const [modalImageUrl, setModalImageUrl] = useState<string | null>(null);
+    const [url, setURL] = useState("");
+    const [date, setDate] = useState("");
+
+    const [imgs, setImgs] = useState([]);
+
+    const [isImgModalOpen, setIsImgModalOpen] = useState(false);
 
     const params = useParams();
     const slug = params.slug;
@@ -60,25 +65,18 @@ const Page = () => {
             setTitle(album[4])
             setDescription(album[5])
 
-            if(slug?.[0] == "public") {
-                const images = await trybe.getImagesInPublicAlbum(slug?.[1])
-                console.log(images)
+            const images = await trybe.getImagesInAlbum(slug?.[1])
+            console.log(images)
+            setImgs(images)
             
-                let _images: string[] = []
+            let _images: string[] = []
 
-                images.forEach((image: string) => {
-                    _images.push(image[1])
-                })
+            images.forEach((image: string) => {
+                _images.push(image[1])
+            })
 
-                setImages(_images)
-                setLoading(false)
-            } else {
-                const images = await trybe.getImagesInPrivateAlbum(slug?.[1])
-                console.log(images)
-            
-                setImages(images)
-                setLoading(false)
-            }
+            setImages(_images)
+            setLoading(false)
         } catch (error) {
             console.log(error)
             setLoading(false)
@@ -134,14 +132,20 @@ const Page = () => {
         handleFileUpload(filesArray);
     }
 
-    const openModal = (imageUrl: string) => {
-        setModalImageUrl(imageUrl);
-        setModalOpen(true);
+    const handleOpenImgModal = (image: string, index: number) => {
+        setURL(image)
+
+        const timestamp = imgs[index][1]
+        console.log(timestamp)
+
+        const date = new Date(timestamp * 1000)
+        setDate(date.toISOString())
+
+        setIsImgModalOpen(true);
     };
-    
-    const closeModal = () => {
-        setModalOpen(false);
-        setModalImageUrl(null);
+
+    const handleCloseImgModal = () => {
+        setIsImgModalOpen(false);
     };
 
     return (
@@ -194,7 +198,7 @@ const Page = () => {
                 {images.length > 0 && !loading &&
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 m-4">
                         {images.map((image, index) => (
-                            <div key={index} className="relative w-full h-0 pb-[66.66%]" onClick={() => openModal(image)}>
+                            <div key={index} className="relative w-full h-0 pb-[66.66%]" onClick={() => handleOpenImgModal(image, index)}>
                                 <Image
                                     src={image}
                                     alt={`Uploaded Image ${index + 1}`}
@@ -206,9 +210,7 @@ const Page = () => {
                         ))}
                     </div>
                 }
-                {modalOpen && (
-                    <Modal isOpen={modalOpen} onClose={closeModal} imageUrl={modalImageUrl} />
-                )}
+                <ImageModal isOpen={isImgModalOpen} onClose={handleCloseImgModal} url={url} date={date} />
             </section>
         </>
     );

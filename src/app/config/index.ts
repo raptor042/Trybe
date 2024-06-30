@@ -1,4 +1,4 @@
-export const TRYBE_CA = "0x1b2c73A7538fbcE8e90a82f9ad63709cBcB0a56A"
+export const TRYBE_CA = "0x359B897beD3EB748a1CdBa69de989ceC35264D18"
 
 export const TRYBE_ABI = [
   {
@@ -126,124 +126,6 @@ export const TRYBE_ABI = [
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "album",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint8",
-        "name": "visibility",
-        "type": "uint8"
-      },
-      {
-        "internalType": "uint256",
-        "name": "fee",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      },
-      {
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "description",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "profileImage",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "created",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "totalNoOfImages",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "albums",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint8",
-        "name": "visibility",
-        "type": "uint8"
-      },
-      {
-        "internalType": "uint256",
-        "name": "fee",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      },
-      {
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "description",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "profileImage",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "created",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "totalNoOfImages",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "string",
         "name": "_name",
         "type": "string"
@@ -277,6 +159,19 @@ export const TRYBE_ABI = [
     "name": "createAlbum",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "albumId",
+        "type": "uint256"
+      }
+    ],
+    "name": "download",
+    "outputs": [],
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -428,53 +323,7 @@ export const TRYBE_ABI = [
         "type": "uint256"
       }
     ],
-    "name": "getImageInPrivateAlbum",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "url",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "description",
-            "type": "string"
-          },
-          {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          }
-        ],
-        "internalType": "struct Trybe.Image",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "albumId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "imageId",
-        "type": "uint256"
-      }
-    ],
-    "name": "getImageInPublicAlbum",
+    "name": "getImageInAlbum",
     "outputs": [
       {
         "components": [
@@ -528,48 +377,7 @@ export const TRYBE_ABI = [
         "type": "uint256"
       }
     ],
-    "name": "getImagesInPrivateAlbum",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "url",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "description",
-            "type": "string"
-          },
-          {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          }
-        ],
-        "internalType": "struct Trybe.Image[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "albumId",
-        "type": "uint256"
-      }
-    ],
-    "name": "getImagesInPublicAlbum",
+    "name": "getImagesInAlbum",
     "outputs": [
       {
         "components": [
@@ -616,69 +424,6 @@ export const TRYBE_ABI = [
         "internalType": "address[]",
         "name": "",
         "type": "address[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "images",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "imagesInAlbum",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "url",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "description",
-        "type": "string"
-      },
-      {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
       }
     ],
     "stateMutability": "view",
