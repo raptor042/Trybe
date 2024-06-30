@@ -76,13 +76,15 @@ const Page = () => {
     
                 setJoining(false)
         
-                toast.success(`You successfully join the ${album[4]} album`)
+                toast.success(`You successfully joined the ${album[4]} album`)
 
-                if(Number(album[1]) == 0) {
-                    router.push(`/albums/public/${id}`)
-                } else {
-                    router.push(`/albums/private/${id}`)
-                }
+                setTimeout(() => {
+                    if(album[1]) {
+                        router.push(`/albums/public/${id}`)
+                    } else {
+                        router.push(`/albums/private/${id}`)
+                    }
+                }, 2000);
             })
         } catch (error) {
             console.log(error)

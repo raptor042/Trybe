@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { IoAdd } from "react-icons/io5";
-import AlbumModal from '../../components/albumModal';
+import AlbumModal from '../../components/AlbumModal';
 import { TbLibraryPhoto } from "react-icons/tb";
 import { useWeb3ModalAccount, useWeb3ModalProvider } from '@web3modal/ethers/react';
 import { BrowserProvider, ethers } from 'ethers';
@@ -25,8 +25,6 @@ const Page = () => {
     const [description, setDescription] = useState("");
     const [visibility, setVisibility] = useState(false);
     const [file, setFile] = useState<File>();
-
-    const [adding, setAdding] = useState(false);
 
     const [fee, setFee] = useState(0);
 
@@ -120,7 +118,7 @@ const Page = () => {
         try {
             const uploadedFile = await uploadFile(file);
         
-            await trybe.addImageToAlbum(slug?.[1], uploadedFile, `${title} - ${description}`);
+            await trybe.addImageToAlbum(slug?.[1], uploadedFile, `${title} - ${description}`, fee * 1000);
         
             trybe.on("ImageAdded", (albumId, imageId, e) => {
                 console.log(albumId, imageId);
@@ -257,10 +255,10 @@ const Page = () => {
                                     type="button"
                                     className="bg-blue-500 rounded-md hover:bg-blue-700 text-white font-bold text-sm py-2 px-4 w-full flex justify-center"
                                     onClick={() => handleFileUpload(file!)}
-                                    disabled={adding}
+                                    disabled={uploading}
                                 >
-                                    {!adding && "Create Album"}
-                                    {adding &&
+                                    {!uploading && "Create Album"}
+                                    {uploading &&
                                         <div role="status">
                                             <svg aria-hidden="true" className="w-4 h-4 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
