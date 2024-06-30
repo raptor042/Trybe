@@ -18,7 +18,7 @@ const AlbumModal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" onClick={handleOverlayClick}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50" onClick={handleOverlayClick}>
             <div className="relative bg-[#19191B] p-4 rounded-lg">
                 <button className="absolute top-2 right-2 text-black rounded-full p-2" onClick={onClose}>
                     <IoMdClose className="text-white" />
