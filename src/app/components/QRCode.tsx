@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React, { useState } from 'react';
 import { IoMdClose } from "react-icons/io";
 
 import * as htmlToImage from "html-to-image";
@@ -25,7 +25,7 @@ const QRCodeModal: React.FC<ModalProps> = ({ isOpen, onClose, url }) => {
         }
     };
 
-    let copied = false
+    const [copied, setCopied] = useState(false)
 
     const downloadQRCode = () => {
         htmlToImage
@@ -42,10 +42,10 @@ const QRCodeModal: React.FC<ModalProps> = ({ isOpen, onClose, url }) => {
 
     const copyText = async () => {
         await navigator.clipboard.writeText(url)
-        copied = true
+        setCopied(true)
 
         setTimeout(() => {
-            copied = false
+            setCopied(false)
         }, 2000);
     }
 
