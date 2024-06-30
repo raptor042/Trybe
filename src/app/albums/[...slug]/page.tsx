@@ -116,17 +116,17 @@ const Page = () => {
         try {
             for (let i = 0; i < files.length; i++) {
                 const uploadedFile = await uploadFile(files[0]);
-            
-                await trybe.addImageToAlbum(slug?.[1], uploadedFile, `${album[4]} - ${album[5]}`, Number(fee) * 1000);
-            
-                trybe.on("ImageAdded", (albumId, imageId, e) => {
-                    console.log(albumId, imageId);
-            
-                    toast.success(`You successfully uploaded an photo.`);
-                })
     
                 setImages((prevFile) => [...prevFile, uploadedFile])
             }
+
+            await trybe.addImageToAlbum(slug?.[1], images, `${album[4]}: ${album[5]}`, Number(fee) * 1000);
+            
+            trybe.on("ImageAdded", (albumId, imageId, e) => {
+                console.log(albumId, imageId);
+        
+                toast.success(`You successfully uploaded an photo.`);
+            })
 
             setUploading(false);
             handleCloseFeeModal()

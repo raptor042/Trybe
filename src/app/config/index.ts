@@ -1,4 +1,4 @@
-export const TRYBE_CA = "0x1B62da7930AF1942a0289D0BAC5e85927c612d31"
+export const TRYBE_CA = "0x31Ba0332350625AC911b026062C07a434eb6550E"
 
 export const TRYBE_ABI = [
   {
@@ -126,9 +126,9 @@ export const TRYBE_ABI = [
         "type": "string[]"
       },
       {
-        "internalType": "string[]",
-        "name": "descriptions",
-        "type": "string[]"
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
       },
       {
         "internalType": "uint256",

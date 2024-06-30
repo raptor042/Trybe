@@ -97,16 +97,16 @@ export default function Home() {
       for (let i = 0; i < files.length; i++) {
         const uploadedFile = await uploadFile(files[i]);
 
-        await trybe.upload(uploadedFile);
-
-        trybe.on("Upload", (user, url, createdAt, e) => {
-          console.log(user, url, createdAt);
-
-          toast.success(`You successfully created an image.`);
-        })
-
         addFile(uploadedFile); // Append the new files to the existing state
       }
+
+      await trybe.upload(files);
+
+      trybe.on("Upload", (user, createdAt, e) => {
+        console.log(user, createdAt);
+
+        toast.success(`You successfully created an image.`);
+      })
   
       setUploading(false);
     } catch (e) {
