@@ -21,12 +21,12 @@ const Page = () => {
 
     const inputFile = useRef<HTMLInputElement>(null);
 
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [visibility, setVisibility] = useState(false);
+    const [album, setAlbum] = useState<string[]>([]);
     const [file, setFile] = useState<File>();
 
-    const [fee, setFee] = useState(0);
+    const [fee, setFee] = useState("0");
+
+    const [charge, setCharge] = useState(0);
 
     const [url, setURL] = useState("");
     const [date, setDate] = useState("");
@@ -68,10 +68,7 @@ const Page = () => {
         try {
             const album = await trybe.getAlbum(slug?.[1])
             console.log(album)
-
-            setVisibility(album[1])
-            setTitle(album[4])
-            setDescription(album[5])
+            setAlbum(album)
 
             const images = await trybe.getImagesInAlbum(slug?.[1])
             console.log(images)
@@ -118,7 +115,7 @@ const Page = () => {
         try {
             const uploadedFile = await uploadFile(file);
         
-            await trybe.addImageToAlbum(slug?.[1], uploadedFile, `${title} - ${description}`, fee * 1000);
+            await trybe.addImageToAlbum(slug?.[1], uploadedFile, `${album[4]} - ${album[5]}`, Number(fee) * 1000);
         
             trybe.on("ImageAdded", (albumId, imageId, e) => {
                 console.log(albumId, imageId);
@@ -151,6 +148,7 @@ const Page = () => {
     const handleOpenImgModal = (image: string, index: number) => {
         setURL(image)
         setID(imgs[index][0])
+        setCharge(imgs[index][5])
 
         const timestamp = imgs[index][4]
         console.log(timestamp)
@@ -178,13 +176,13 @@ const Page = () => {
             <section className='p-3 md:px-44'>
                 <main className="flex justify-between w-full m-2">
                     <div>
-                        <p className='font-bold text-xl'>{title}</p>
-                        <p className='text-gray-400'>{`${description.slice(0, 42)}...`}</p>
+                        <p className='font-bold text-xl'>{album[4]}</p>
+                        <p className='text-gray-400'>{`${album[5].slice(0, 42)}...`}</p>
                     </div>
 
                     <button 
                         disabled={uploading && !isConnected}
-                        onClick={() => visibility ? inputFile.current?.click() : handleOpenFeeModal()} 
+                        onClick={() => album[1] ? inputFile.current?.click() : handleOpenFeeModal()} 
                         className='flex items-center p-1 rounded gap-3 px-5 bg-[#5773ff]'
                     >
                         <IoAdd />
@@ -237,12 +235,11 @@ const Page = () => {
                         <div className="mt-2 mb-4 flex flex-col gap-3">
                             <label className="block text-sm font-medium text-gray-900 dark:text-white">Fee</label>
                             <input
-                                type="number"
+                                type="text"
                                 name="Fee"
                                 value={fee}
-                                onChange={(e) => setFee(Number(e.target.value))}
+                                onChange={(e) => setFee(e.target.value)}
                                 className="shadow appearance-none  rounded w-full py-2 px-3 text-white leading-tight  bg-[#37373b]"
-                                placeholder="Title"
                             />
 
                             <label className="block text-sm font-medium text-gray-900 dark:text-white">Upload file</label>
@@ -272,7 +269,7 @@ const Page = () => {
                         </div>
                     </div>
                 </FeeModal>
-                <ImageModal isOpen={isImgModalOpen} onClose={handleCloseImgModal} url={url} date={date} albumId={Number(slug?.[1])} imageId={Number(ID)} visibility={visibility} />
+                <ImageModal isOpen={isImgModalOpen} onClose={handleCloseImgModal} url={url} date={date} albumId={Number(slug?.[1])} imageId={Number(ID)} visibility={Boolean(album[1])} fee={charge} />
             </section>
         </>
     );

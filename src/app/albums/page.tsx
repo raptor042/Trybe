@@ -20,7 +20,7 @@ const Page = () => {
     const [participants, setParticipants] = useState<string[]>([])
     const [url, setURL] = useState("")
     const [visibility, setVisibility] = useState(0)
-    const [fee, setFee] = useState(0)
+    const [fee, setFee] = useState("0")
     const [creating, setCreating] = useState(false)
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(true);
@@ -102,9 +102,9 @@ const Page = () => {
         setCreating(true)
     
         try {
-            if(visibility == 1 && fee > 10) {
+            if(visibility == 1 && Number(fee) > 10) {
                 toast.error("Fee cannot be greater than 10 ETH.")
-            } else if(visibility == 1 && fee < 0.001) {
+            } else if(visibility == 1 && Number(fee) < 0.001) {
                 toast.error("Fee cannot be less than 0.001 ETH.")
             }
 
@@ -116,7 +116,7 @@ const Page = () => {
                 participants,
                 url,
                 visible,
-                fee * 1000
+                Number(fee) * 1000
             )
     
             trybe.on("AlbumCreated", (creator, nameOfAlbum, albumId, e) => {
@@ -263,7 +263,7 @@ const Page = () => {
                             </select>
 
                             {visibility == 1 && <label className="block text-sm font-medium text-gray-900 dark:text-white">Fee</label>}
-                            {visibility == 1 && <input value={fee} onChange={(e) => setFee(Number(e.target.value))} placeholder="fee" type="number" max={10} min={0.001} step={0.001} className="block mb-2 w-full p-4 text-white rounded-lg bg-[#37373b] text- " />}
+                            {visibility == 1 && <input value={fee} onChange={(e) => setFee(e.target.value)} placeholder="fee" type="text" step={0.001} className="block mb-2 w-full p-4 text-white rounded-lg bg-[#37373b] text- " />}
                         </div>
                         <div className="flex items-center justify-between">
                             {!uploading &&

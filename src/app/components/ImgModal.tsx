@@ -17,9 +17,10 @@ interface ModalProps {
     albumId: number | null;
     imageId: number | null;
     visibility: boolean | null;
+    fee: number | number;
 }
 
-const ImageModal: React.FC<ModalProps> = ({ isOpen, onClose, url, date, albumId, imageId, visibility }) => {
+const ImageModal: React.FC<ModalProps> = ({ isOpen, onClose, url, date, albumId, imageId, visibility, fee }) => {
     if (!isOpen) return null;
 
     const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -45,7 +46,7 @@ const ImageModal: React.FC<ModalProps> = ({ isOpen, onClose, url, date, albumId,
 
         try {
             if(!visibility) {
-                await trybe.download(albumId, imageId)
+                await trybe.download(albumId, imageId, { value: ethers.parseEther(`${fee}`) })
 
                 trybe.on("ImageDownloaded", (albumId, imageId, e) => {
                     console.log(albumId, imageId)

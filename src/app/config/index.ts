@@ -1,4 +1,4 @@
-export const TRYBE_CA = "0x9e4f73d17796155DAb9973DCB7B575cDCB37c7D5"
+export const TRYBE_CA = "0x9D90430AeFDA1e6bdDd7Eed11E4E8C86477e492a"
 
 export const TRYBE_ABI = [
   {
