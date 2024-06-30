@@ -251,7 +251,7 @@ const Page = () => {
                 }
 
                 {images.length > 0 && !loading &&
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 m-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 m-4">
                         {images.map((image, index) => (
                             <div key={index} className="relative w-full h-0 pb-[66.66%]" onClick={() => handleOpenImgModal(image, index)}>
                                 <Image
@@ -294,7 +294,7 @@ const Page = () => {
                                     onClick={() => handleFileUpload(files!)}
                                     disabled={uploading}
                                 >
-                                    {!uploading && "Create Album"}
+                                    {!uploading && "Add Image"}
                                     {uploading &&
                                         <div role="status">
                                             <svg aria-hidden="true" className="w-4 h-4 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
