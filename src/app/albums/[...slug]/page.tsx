@@ -135,7 +135,7 @@ const Page = () => {
     const handleOpenImgModal = (image: string, index: number) => {
         setURL(image)
 
-        const timestamp = imgs[index][3]
+        const timestamp = imgs[index][4]
         console.log(timestamp)
 
         const date = new Date(timestamp * 1000)
