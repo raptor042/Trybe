@@ -131,7 +131,7 @@ const Page = () => {
 
             setUploading(false);
             handleCloseFeeModal()
-            window.location.reload();
+            // window.location.reload();
         } catch (e) {
             console.log(e);
             toast.error("Trouble uploading photo");
