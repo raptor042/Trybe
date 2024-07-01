@@ -75,16 +75,24 @@ const Page = () => {
                 console.log(participant, timeJoined);
         
                 toast.success(`You successfully joined the ${album[4]} album`)
+
+                setTimeout(() => {
+                    if(album[1]) {
+                        window.location.assign(`/albums/public/${id}`)
+                    } else {
+                        window.location.assign(`/albums/private/${id}`)
+                    }
+                }, 2000);
             })
 
             setJoining(false)
-            setTimeout(() => {
-                if(album[1]) {
-                    window.location.assign(`/albums/public/${id}`)
-                } else {
-                    window.location.assign(`/albums/private/${id}`)
-                }
-            }, 3000);
+            // setTimeout(() => {
+            //     if(album[1]) {
+            //         window.location.assign(`/albums/public/${id}`)
+            //     } else {
+            //         window.location.assign(`/albums/private/${id}`)
+            //     }
+            // }, 3000);
         } catch (error) {
             console.log(error)
 

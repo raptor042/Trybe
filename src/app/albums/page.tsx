@@ -129,7 +129,7 @@ const Page = () => {
 
                 toast.success(`You successfully created an album with ID of ${albumId}`)
 
-                // handleOpenQRCodeModal()
+                handleOpenQRCodeModal()
             })
 
             setID(noOfAlbums! + 1)
@@ -138,9 +138,9 @@ const Page = () => {
 
             handleCloseModal()
 
-            setTimeout(() => {
-                handleOpenQRCodeModal()
-            }, 3000);
+            // setTimeout(() => {
+            //     handleOpenQRCodeModal()
+            // }, 3000);
         } catch (error) {
             console.log(error)
 
