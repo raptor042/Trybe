@@ -195,12 +195,10 @@ const Page = () => {
                 })
             }
 
-            // download(url!, "photo.png")
+            const response = await fetch(url)
+            const blob = await response.blob()
 
-            const link = document.createElement("a");
-            link.download = "photo.png";
-            link.href = url;
-            link.click();
+            download(blob, "photo.png")
 
             handleCloseImgModal()
         } catch (error) {
