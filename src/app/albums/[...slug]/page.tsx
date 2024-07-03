@@ -127,9 +127,9 @@ const Page = () => {
             
                     toast.success(`You successfully uploaded an photo.`);
 
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 2000);
+                    // setTimeout(() => {
+                    //     window.location.reload();
+                    // }, 2000);
                 })
             }
 
@@ -217,6 +217,7 @@ const Page = () => {
                 ref={inputFile}
                 onChange={handleChange}
                 style={{ display: "none" }}
+                multiple
             />
             <section className='p-5 md:px-44'>
                 {album.length > 0 && !loading &&
