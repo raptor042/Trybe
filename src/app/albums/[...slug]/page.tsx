@@ -185,22 +185,22 @@ const Page = () => {
         );
 
         try {
-            if(!album[1] && address != owner) {
+            if(true) {
                 await trybe.download(Number(slug?.[1]), Number(ID), { value: ethers.parseEther(`${charge}`) })
 
-                trybe.on("ImageDownloaded", (albumId, imageId, e) => {
+                trybe.on("ImageDownloaded", async (albumId, imageId, e) => {
                     console.log(albumId, imageId)
+
+                    const response = await fetch(url)
+                    const blob = await response.blob()
+
+                    download(blob, "photo.png")
+
+                    handleCloseImgModal()
 
                     toast.success(`You successfully downloaded the image.`)
                 })
             }
-
-            const response = await fetch(url)
-            const blob = await response.blob()
-
-            download(blob, "photo.png")
-
-            handleCloseImgModal()
         } catch (error) {
             console.log(error)
 
@@ -293,7 +293,7 @@ const Page = () => {
                             <label className="block text-sm font-medium text-gray-900 dark:text-white">Fee</label>
                             <input
                                 type="text"
-                                name="Fee"
+                                multiple
                                 value={fee}
                                 onChange={(e) => setFee(e.target.value)}
                                 className="shadow appearance-none  rounded w-full py-2 px-3 text-white leading-tight  bg-[#37373b]"
