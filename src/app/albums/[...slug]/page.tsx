@@ -195,7 +195,12 @@ const Page = () => {
                 })
             }
 
-            download(url!, "photo.png")
+            // download(url!, "photo.png")
+
+            const link = document.createElement("a");
+            link.download = "photo.png";
+            link.href = url;
+            link.click();
 
             handleCloseImgModal()
         } catch (error) {
@@ -326,6 +331,11 @@ const Page = () => {
                     <div className="relative bg-[#19191B] p-4 rounded-lg mt-4 mb-2">
                         {url && <Image src={url} width={300} height={150} alt="" />}
                     </div>
+                    {!album[1] &&
+                        <div className='text-center m-3'>
+                            <p className='font-bold text-2xl'>{charge} ETH</p>
+                        </div>
+                    }
                     <div className='flex items-center justify-between m-3'>
                         {date && <p className='text-sm font-medium text-center text-white'>Uploaded at {date}</p>}
                         <div className='flex justify-center m-3'>
