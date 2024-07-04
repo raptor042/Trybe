@@ -185,8 +185,8 @@ const Page = () => {
         );
 
         try {
-            if(true) {
-                await trybe.download(Number(slug?.[1]), Number(ID), { value: ethers.parseEther(`${charge}`) })
+            if(address == owner) {
+                await trybe.download(Number(slug?.[1]), Number(ID), { value: ethers.parseEther(`0`) })
 
                 trybe.on("ImageDownloaded", async (albumId, imageId, e) => {
                     console.log(albumId, imageId)
@@ -200,6 +200,21 @@ const Page = () => {
 
                     toast.success(`You successfully downloaded the image.`)
                 })
+            } else {
+                await trybe.download(Number(slug?.[1]), Number(ID), { value: ethers.parseEther(`${charge}`) })
+
+                trybe.on("ImageDownloaded", async (albumId, imageId, e) => {
+                    console.log(albumId, imageId)
+
+                    const response = await fetch(url)
+                    const blob = await response.blob()
+
+                    download(blob, "photo.png")
+
+                    handleCloseImgModal()
+
+                    toast.success(`You successfully downloaded the image.`)
+                })   
             }
         } catch (error) {
             console.log(error)
