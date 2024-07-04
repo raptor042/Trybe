@@ -108,7 +108,7 @@ const Page = () => {
                     <Image src={album[6]} alt='' width={300} height={200} />
                     <div className='flex flex-col gap-1 items-center'>
                         <p className='font-bold text-2xl'>{album[4]}</p>
-                        {!album[1] && <p className='text-gray-400 md:text-md text-xs'>{ethers.formatEther(album[2])}</p>}
+                        {!album[1] && <p className='text-gray-400 md:text-md text-xs'>Fee: {ethers.formatEther(album[2])} ETH</p>}
                         <p className='text-sm'>{album[5]}</p>
                     </div>
                 </main>
