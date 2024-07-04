@@ -103,7 +103,16 @@ const Page = () => {
     return (
         <div className='flex flex-col items-center'>
             <Toaster />
-            {!loading &&
+            {album.length === 0 && !loading &&
+                <main className='flex flex-col items-center w-full'>
+                    <Image src={"/album.svg"} alt='' width={300} height={200} />
+                    <div className='flex flex-col gap-1 items-center'>
+                        <p className='font-bold text-2xl'>No album created yet!!</p>
+                        <p className='text-sm '>New albums will appear on this page</p>
+                    </div>
+                </main>
+            }
+            {album.length > 0 && !loading &&
                 <main className='flex flex-col items-center w-full m-2'>
                     <Image src={album[6]} alt='' width={300} height={200} />
                     <div className='flex flex-col gap-1 items-center'>
@@ -124,7 +133,7 @@ const Page = () => {
                 </div>
             }
 
-            {!loading &&
+            {album.length > 0 && !loading &&
                 <button className='flex items-center p-1 rounded-2xl gap-3 px-5 bg-[#5773ff] m-2' onClick={joinAlbum}>
                     {!joining && <IoAdd />}
                     {!joining && <p>Join Album</p>}
