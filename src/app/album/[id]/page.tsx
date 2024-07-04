@@ -49,6 +49,7 @@ const Page = () => {
             setLoading(false)
         } catch (error) {
             console.log(error)
+            setLoading(false)
         }
     }
 
