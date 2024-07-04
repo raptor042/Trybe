@@ -28,8 +28,6 @@ const Page = () => {
     const id = params.id;
     console.log(id)
 
-    const router = useRouter()
-
     useEffect(() => {
         getAlbum()
     }, [address, isConnected])

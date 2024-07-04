@@ -2,23 +2,31 @@
 
 import Image from "next/image";
 import React, { useContext, useRef, useState } from "react";
-import { IoAdd } from "react-icons/io5";
+import { IoAdd, IoArrowDown } from "react-icons/io5";
 import { IoWallet } from "react-icons/io5";
 import { TbPhoto } from "react-icons/tb";
 import { TbLibraryPhoto } from "react-icons/tb";
 import { TiStarOutline } from "react-icons/ti";
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import { store } from "../context/store";
 import toast, { Toaster } from 'react-hot-toast';
 import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers/react";
 import { BrowserProvider, ethers } from "ethers";
 import { TRYBE_ABI, TRYBE_CA } from "../config";
+import QRCodeModal from "../components/QRCode";
 
 const Navbar = () => {
   const pathname = usePathname()
 
   const [uploading, setUploading] = useState(false);
+  const [ID, setID] = useState<string>();
+
+  const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
+
+  const params = useParams();
+  const slug = params.slug;
+  console.log(slug)
 
   const inputFile = useRef<HTMLInputElement>(null);
 
@@ -94,6 +102,19 @@ const Navbar = () => {
     handleFileUpload(filesArray!);
   };
 
+  const openQRCodeModal = () => {
+    setID(slug?.[1])
+    handleOpenQRCodeModal()
+  }
+
+  const handleOpenQRCodeModal = () => {
+    setIsQRCodeModalOpen(true);
+  };
+
+  const handleCloseQRCodeModal = () => {
+    setIsQRCodeModalOpen(false);
+  };
+
   return (
     <section className="flex flex-col  items-center gap- w-full">
       <Toaster />
@@ -126,6 +147,24 @@ const Navbar = () => {
               }
             </button>
           }
+          {pathname.includes("/albums/public") &&
+            <button
+              disabled={!isConnected}
+              onClick={openQRCodeModal}
+              className="border-[#5773ff] text-[#5773ff] border-2 px-2 py-2  md:px-3 md:py-3 flex items-center gap-3 rounded-xl"
+              >
+              <IoArrowDown />
+            </button>
+          }
+          {pathname.includes("/albums/private") &&
+            <button
+              disabled={!isConnected}
+              onClick={openQRCodeModal}
+              className="border-[#5773ff] text-[#5773ff] border-2 px-2 py-2  md:px-3 md:py-3 flex items-center gap-3 rounded-xl"
+              >
+              <IoArrowDown />
+            </button>
+          }
           <button className="  font-light text-white px-4 py-1 flex items-center gap-1 rounded-xl ">
             <IoWallet className="hidden md:flex" />
             <w3m-button balance={"hide"} />
@@ -146,6 +185,7 @@ const Navbar = () => {
         </Link>
 
       </main>
+      <QRCodeModal isOpen={isQRCodeModalOpen} onClose={handleCloseQRCodeModal} url={`https://trybe-eight.vercel.app/album/${ID}`} />
     </section>
   );
 };
