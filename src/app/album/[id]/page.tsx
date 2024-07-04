@@ -110,6 +110,7 @@ const Page = () => {
                     <Image src={album[6]} alt='' width={300} height={200} />
                     <div className='flex flex-col gap-1 items-center'>
                         <p className='font-bold text-2xl'>{album[4]}</p>
+                        <p className='text-gray-400 md:text-md text-xs'>{Number(ethers.formatEther(album[2]))}</p>
                         <p className='text-sm'>{album[5]}</p>
                     </div>
                 </main>
