@@ -15,10 +15,18 @@ import ImageModal from '@/app/components/ImgModal';
 import FeeModal from '@/app/components/FeeModal';
 import download from 'downloadjs';
 
+type Content = {
+    url: string;
+    mime: string;
+    fee: number;
+    id: number;
+    timestamp: number;
+}
+
 const Page = () => {
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(false);
-    const [images, setImages] = useState<string[]>([]);
+    const [images, setImages] = useState<Content[]>([]);
 
     const inputFile = useRef<HTMLInputElement>(null);
 
@@ -28,13 +36,11 @@ const Page = () => {
     const [fee, setFee] = useState("0");
 
     const [charge, setCharge] = useState(0);
-    const [owner, setOwner] = useState("");
 
     const [url, setURL] = useState("");
+    const [mime, setMime] = useState("");
     const [date, setDate] = useState("");
     const [ID, setID] = useState("")
-
-    const [imgs, setImgs] = useState([]);
 
     const [isFeeModalOpen, setIsFeeModalOpen] = useState(false);
     const [isImgModalOpen, setIsImgModalOpen] = useState(false);
@@ -74,20 +80,30 @@ const Page = () => {
 
             const images = await trybe.getImagesInAlbum(slug?.[1])
             console.log(images)
-            setImgs(images)
             
-            let _images: string[] = []
+            let _images: Content[] = []
 
-            images.forEach((image: string) => {
-                _images.push(image[1])
+            images.forEach(async (image: string) => {
+                const mime = await checkFileType(image[1]);
+                _images.push({ url: image[1], mime, fee: Number(image[5]), id: Number(image[0]), timestamp: Number(image[4]) })
             })
 
-            setImages(_images)
-            setLoading(false)
+            setTimeout(() => {
+                setImages(_images)
+                setLoading(false)
+            }, 3000);
         } catch (error) {
             console.log(error)
             setLoading(false)
         }
+    }
+
+    const checkFileType = async (url: string) => {
+        const response = await fetch(url)
+        const blob = await response.blob()
+        console.log(blob.type)
+
+        return blob.type
     }
 
     const uploadFile = async (fileToUpload: File) => {
@@ -117,8 +133,10 @@ const Page = () => {
         try {
             for (let i = 0; i < files.length; i++) {
                 const uploadedFile = await uploadFile(files[i]);
+                const mime = await checkFileType(uploadedFile);
+                const file = { url: uploadedFile, mime, fee: Number(fee), id: Number(album[9]) + 1, timestamp: new Date().getMilliseconds() }
     
-                setImages((prevFile) => [...prevFile, uploadedFile])
+                setImages((prevFile) => [...prevFile, file])
 
                 await trybe.addImageToAlbum(slug?.[1], uploadedFile, `${album[4]}: ${album[5]}`, Number(fee) * 1000);
             
@@ -156,14 +174,11 @@ const Page = () => {
         setIsFeeModalOpen(false);
     };
 
-    const handleOpenImgModal = (image: string, index: number) => {
+    const handleOpenImgModal = (image: string, mime: string, id: number, fee: number, timestamp: number) => {
         setURL(image)
-        setID(imgs[index][0])
-        setCharge(Number(ethers.formatEther(imgs[index][5])))
-        setOwner(imgs[index][3])
-
-        const timestamp = imgs[index][4]
-        console.log(timestamp)
+        setMime(mime)
+        setID(id.toString())
+        setCharge(Number(ethers.formatEther(`${fee}`)))
 
         const date = new Date(Number(timestamp) * 1000)
         setDate(date.toLocaleDateString())
@@ -268,14 +283,21 @@ const Page = () => {
                 {images.length > 0 && !loading &&
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 m-4">
                         {images.map((image, index) => (
-                            <div key={index} className="relative w-full h-0 pb-[66.66%]" onClick={() => handleOpenImgModal(image, index)}>
-                                <Image
-                                    src={image}
-                                    alt={`Uploaded Image ${index + 1}`}
-                                    layout="fill"
-                                    objectFit="cover"
-                                    priority
-                                />
+                            <div key={index} className="relative w-full h-0 pb-[66.66%]" onClick={() => handleOpenImgModal(image.url, image.mime, image.id, image.fee, image.timestamp)}>
+                                {image.mime.includes("image") &&
+                                    <Image
+                                        src={image.url}
+                                        alt={`Uploaded Image ${index + 1}`}
+                                        layout="fill"
+                                        objectFit="cover"
+                                        priority
+                                    />
+                                }
+                                {image.mime.includes("video") &&
+                                    <video controls width={600} height={300}>
+                                        <source type={image.mime} src={image.url} />
+                                    </video>
+                                }
                             </div>
                         ))}
                     </div>
@@ -326,7 +348,12 @@ const Page = () => {
                 </FeeModal>
                 <ImageModal isOpen={isImgModalOpen} onClose={handleCloseImgModal}>
                     <div className="relative bg-[#19191B] p-4 rounded-lg mt-4 mb-2">
-                        {url && <Image src={url} width={300} height={150} alt="" />}
+                        {url && mime.includes("image") && <Image src={url} width={300} height={150} alt="" />}
+                        {url && mime.includes("video") &&
+                            <video controls width={300} height={150}>
+                                <source type={mime} src={url} />
+                            </video>
+                        }
                     </div>
                     {!album[1] &&
                         <div className='text-center m-3'>

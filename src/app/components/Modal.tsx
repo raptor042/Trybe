@@ -8,11 +8,12 @@ import Image from 'next/image';
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
-    imageUrl: string | null; // Accepts null as well
+    url: string | null; // Accepts null as well
+    mime: string | null
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, imageUrl }) => {
-    if (!isOpen || !imageUrl) return null; // Render nothing if not open or imageUrl is null
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, url, mime }) => {
+    if (!isOpen || !url) return null; // Render nothing if not open or url is null
 
     const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target === e.currentTarget) {
@@ -32,15 +33,22 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, imageUrl }) => {
                 <IoMdClose className="text-white text-2xl" />
             </button>
             <div className="relative bg-[#19191B] p-4 rounded-lg">
-                {imageUrl && (
+                {url && (
                     <div className="flex justify-center items-center">
-                        <Image
-                            src={imageUrl}
-                            alt="Modal Image"
-                            width={400}
-                            height={400}
-                            className="object-contain"
-                        />
+                        {mime?.includes("image") &&
+                            <Image
+                                src={url}
+                                alt="Modal Image"
+                                width={400}
+                                height={400}
+                                className="object-contain"
+                            />
+                        }
+                        {mime?.includes("video") &&
+                            <video controls width={300} height={150}>
+                                <source type={mime} src={url} />
+                            </video>
+                        }
                     </div>
                 )}
             </div>

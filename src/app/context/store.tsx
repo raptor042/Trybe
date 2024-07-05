@@ -2,12 +2,17 @@
 
 import { createContext, useReducer } from "react";
 
+export type Content = {
+    url: string;
+    mime: string;
+}
+
 export type Action =
-| { type: 'ADD_FILE'; payload: string }
-| { type: 'SET_FILES'; payload: string[] };
+| { type: 'ADD_FILE'; payload: Content }
+| { type: 'SET_FILES'; payload: Content[] };
 
 export type State = {
-    files: string[]
+    files: Content[]
 }
 
 const initialState = {

@@ -8,12 +8,18 @@ import { BrowserProvider, ethers } from 'ethers';
 import { TRYBE_ABI, TRYBE_CA } from './config';
 import { store } from './context/store';
 
+type Content = {
+  url: string;
+  mime: string;
+}
+
 export default function Home() {
   // const [files, setFiles] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalImageUrl, setModalImageUrl] = useState<string | null>(null);
+  const [modalMime, setModalMime] = useState<string | null>(null);
 
   const inputFile = useRef<HTMLInputElement>(null);
 
@@ -34,14 +40,14 @@ export default function Home() {
     getImages()
   }, [address, isConnected])
 
-  const setFiles = (files: string[]) => {
+  const setFiles = (files: Content[]) => {
     dispatch({
         type : "SET_FILES",
         payload : files
     })
   }
 
-  const addFile = (file: string) => {
+  const addFile = (file: Content) => {
     dispatch({
         type : "ADD_FILE",
         payload : file
@@ -61,8 +67,17 @@ export default function Home() {
       const images = await trybe.getImages()
       console.log(images)
 
-      setFiles(images)
-      setLoading(false)
+      let _images: Content[] = []
+
+      images.forEach(async (image: string) => {
+        const mime = await checkFileType(image);
+        _images.push({ url: image, mime })
+      });
+
+      setTimeout(() => {
+        setFiles(_images)
+        setLoading(false)
+      }, 3000);
     } catch (error) {
       console.log(error)
       setLoading(false)
@@ -96,8 +111,9 @@ export default function Home() {
     try {
       for (let i = 0; i < _files.length; i++) {
         const uploadedFile = await uploadFile(_files[i]);
+        const mime = await checkFileType(uploadedFile);
 
-        addFile(uploadedFile); // Append the new files to the existing state
+        addFile({ url: uploadedFile, mime }); // Append the new files to the existing state
 
         await trybe.upload(uploadedFile);
 
@@ -116,13 +132,22 @@ export default function Home() {
     }
   };
 
+  const checkFileType = async (url: string) => {
+    const response = await fetch(url)
+    const blob = await response.blob()
+    console.log(blob.type)
+
+    return blob.type
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const filesArray = e?.target?.files;
     handleFileUpload(filesArray!);
   };
 
-  const openModal = (imageUrl: string) => {
+  const openModal = (imageUrl: string, mime: string) => {
     setModalImageUrl(imageUrl);
+    setModalMime(mime);
     setModalOpen(true);
   };
 
@@ -173,20 +198,27 @@ export default function Home() {
       {files.length > 0 && !loading &&
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mt-5">
           {files.map((file, index) => (
-            <div key={index} className="relative w-full h-0 pb-[66.66%]" onClick={() => openModal(file)}>
-              <Image
-                src={file}
-                alt={`Uploaded Image ${index + 1}`}
-                layout="fill"
-                objectFit="cover"
-                priority
-              />
+            <div key={index} className="relative w-full h-0 pb-[66.66%]" onClick={() => openModal(file.url, file.mime)}>
+              {file.mime.includes("image") &&
+                <Image
+                  src={file.url}
+                  alt={`Uploaded Image ${index + 1}`}
+                  layout="fill"
+                  objectFit="cover"
+                  priority
+                />
+              }
+              {file.mime.includes("video") &&
+                <video controls width={600} height={300}>
+                  <source type={file.mime} src={file.url} />
+                </video>
+              }
             </div>
           ))}
         </div>
       }
       {modalOpen && (
-        <Modal isOpen={modalOpen} onClose={closeModal} imageUrl={modalImageUrl} />
+        <Modal isOpen={modalOpen} onClose={closeModal} url={modalImageUrl} mime={modalMime} />
       )}
     </section>
   );

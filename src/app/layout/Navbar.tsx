@@ -16,6 +16,11 @@ import { BrowserProvider, ethers } from "ethers";
 import { TRYBE_ABI, TRYBE_CA } from "../config";
 import QRCodeModal from "../components/QRCode";
 
+type Content = {
+  url: string;
+  mime: string;
+}
+
 const Navbar = () => {
   const pathname = usePathname()
 
@@ -43,7 +48,7 @@ const Navbar = () => {
     provider = new ethers.BrowserProvider(walletProvider);
   }
 
-  const addFile = (file: string) => {
+  const addFile = (file: Content) => {
     dispatch({
       type: "ADD_FILE",
       payload: file
@@ -63,6 +68,14 @@ const Navbar = () => {
     return `${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${IpfsHash}`;
   };
 
+  const checkFileType = async (url: string) => {
+    const response = await fetch(url)
+    const blob = await response.blob()
+    console.log(blob.type)
+
+    return blob.type
+  }
+
   const handleFileUpload = async (_files: FileList) => {
     setUploading(true);
 
@@ -77,8 +90,9 @@ const Navbar = () => {
     try {
       for (let i = 0; i < _files.length; i++) {
         const uploadedFile = await uploadFile(_files[i]);
+        const mime = await checkFileType(uploadedFile);
 
-        addFile(uploadedFile); // Append the new files to the existing state
+        addFile({ url: uploadedFile, mime }); // Append the new files to the existing state
 
         await trybe.upload(uploadedFile);
 
